@@ -19,6 +19,7 @@ class Contact {
 		const std::string& getPhoneNumber() const;
 		const std::string& getDarkestSecret() const;
 		void printContact() const;
+		
 	private:
 		std::string _first_name;
 		std::string _last_name;

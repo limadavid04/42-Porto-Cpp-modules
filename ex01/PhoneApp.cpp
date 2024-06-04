@@ -6,7 +6,7 @@
 /*   By: dlima <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 13:06:04 by dlima             #+#    #+#             */
-/*   Updated: 2024/06/04 12:21:38 by dlima            ###   ########.fr       */
+/*   Updated: 2024/06/04 17:01:28 by dlima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,37 @@
 #include "PhoneBook.hpp"
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 
 static std::string trim(const std::string &str)
 {
 	std::string trimmed = str;
-	trimmed.erase(0, str.find_first_not_of("\t\n\v\f\r ")); // left trim
-	trimmed.erase(str.find_last_not_of("\t\n\v\f\r ") + 1); // right trim
+	trimmed.erase(0, trimmed.find_first_not_of("\t\n\v\f\r ")); // left trim
+	trimmed.erase(trimmed.find_last_not_of("\t\n\v\f\r ") + 1); // right trim
 	return (trimmed);
 }
 
 bool strIsAlpha (std::string str)
 {
 	std::string::iterator i;
-	// int	w_count = 0;
-
+	bool isSpaceAllowed = true;
 	for (i = str.begin(); i < str.end(); i++)
 	{
-		if (!isalpha(*i))
+		if (isalpha(*i))
+			isSpaceAllowed = true;
+		else if (isspace(*i))
+		{
+			if (!isSpaceAllowed)
+				return false;
+			isSpaceAllowed = false;
+		}
+		else
 			return false;
-		// w_count += isspace(*i) > 0 ? 1 : 0;
 	}
 	return true;
-	// return (w_count == str.length() ? false : true);
 }
-bool strIsDigit(std::string str)
+bool strIsDigit(std::string &str)
 {
 	std::string::iterator i;
 	bool isSpaceAllowed = true; // flag to track if space is allowed between digits
@@ -73,7 +79,7 @@ void	invalid_command_prompt(const std::string &prompt)
 		valid_command_prompt();
 }
 
-std::string read_input(const std::string &prompt)
+const std::string read_input(const std::string &prompt)
 {
 	std::string new_line;
 
@@ -87,7 +93,7 @@ std::string read_input(const std::string &prompt)
 		return (strIsDigit(new_line) ? trim(new_line): std::string());
 	return trim(new_line);
 }
-bool create_new_contact(void)
+void create_new_contact(PhoneBook &pBook)
 {
 	Contact new_contact;
 
@@ -95,48 +101,57 @@ bool create_new_contact(void)
 	while (!new_contact.setFirstName(read_input(FIRST_NAME)))
 	{
 		if (std::cin.eof())
-			return (false);
+			return ;
 		invalid_command_prompt(FIRST_NAME);
 	}
 	while (!new_contact.setLastName(read_input(LAST_NAME)))
 	{
 		if (std::cin.eof())
-			return (false);
+			return ;
 		invalid_command_prompt(LAST_NAME);
 	}
 	while (!new_contact.setNickName(read_input(NICKNAME)))
 	{
 		if (std::cin.eof())
-			return (false);
+			return ;
 		invalid_command_prompt(NICKNAME);
 	}
 	while (!new_contact.setPhoneNumber(read_input(PHONE_NBR)))
 	{
 		if (std::cin.eof())
-			return (false);
+			return ;
 		invalid_command_prompt(PHONE_NBR);
 	}
 	while (!new_contact.setDarkestSecret(read_input(DARKEST_SECRET)))
 	{
 		if (std::cin.eof())
-			return (false);
+			return ;
 		invalid_command_prompt(DARKEST_SECRET);
 	}
-	new_contact.printContact();
-	return true;
+	if (std::cin.eof())
+		return ;
+	pBook.addContact(new_contact);
+	valid_command_prompt();
+}
+
+void	search_contact(PhoneBook &pBook)
+{
+	std::cout << std::setw(10) << std::right << truncate_str("INDEX") << "|";
+	std::cout << std::setw(10) << std::right << truncate_str("FIRST NAME") << "|";
+	std::cout << std::setw(10) << std::right << truncate_str("LAST NAME") << "|";
+	std::cout << std::setw(10) << std::right << truncate_str("NICKNAME") << "|" << std::endl;
+	pBook.printAllContacts();
 }
 void	process_input(void)
 {
 	std::string new_line;
-
+	PhoneBook pBook;
 	while(std::getline(std::cin, new_line))
 	{
 		if (new_line == "ADD")
-		{
-			create_new_contact();
-		}
+			create_new_contact(pBook);
 		else if (new_line == "SEARCH")
-			std::cout << "searching..." << std::endl;
+			search_contact(pBook);
 		else if (new_line == "EXIT")
 		{
 			std::cout << "Exiting..." << std::endl;
@@ -148,7 +163,6 @@ void	process_input(void)
 }
 int main (int argc, char **argv)
 {
-	// PhoneBook pBook;
 
 	(void)argc;
 	(void)argv;

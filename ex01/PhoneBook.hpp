@@ -25,23 +25,19 @@
 #define DARKEST_SECRET "DARKEST_SECRET"
 #endif
 
-// typedef enum {
-// 	FIRST_NAME,
-// 	LAST_NAME,
-// 	NICKNAME,
-// 	PHONE_NUMBER,
-// 	DARKEST_SECRET
-// } fields ;
+std::string truncate_str(const std::string &str);
 
 class PhoneBook {
 
 	public:
 		PhoneBook(void);
 		void	addContact(const Contact &new_contact);
+		void	printAllContacts() const;
 	private:
 		Contact _contacts[MAX_CONTACTS];
 		int	_n_contacts;
 		int	_cur_contact_i;
+
 };
 
 #endif
