@@ -25,7 +25,6 @@ Account::~Account(void)
 	std::cout << "index:" << _accountIndex << ";";
 	std::cout << "amount:" << _amount << ";";
 	std::cout << "closed" << std::endl;
-	// [19920104_091532] index:0;amount:47;closed
 }
 int	Account::getNbAccounts( void )
 {
@@ -64,7 +63,6 @@ void	Account::makeDeposit( int deposit )
 	_amount+=deposit;
 	_totalNbDeposits++;
 	_totalAmount+=deposit;
-	// index:0;p_amount:42;deposit:5;amount:47;nb_deposits:1;
 }
 bool	Account::makeWithdrawal( int withdrawal )
 {
@@ -84,8 +82,6 @@ bool	Account::makeWithdrawal( int withdrawal )
 	_totalNbWithdrawals++;
 	_totalAmount-=withdrawal;
 	return (true);
-// 	[19920104_091532] index:0;p_amount:47;withdrawal:refused
-// [19920104_091532] index:1;p_amount:819;withdrawal:34;amount:785;nb_withdrawals:1
 }
 int		Account::checkAmount( void ) const
 {

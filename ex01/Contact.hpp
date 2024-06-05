@@ -6,8 +6,7 @@
 class Contact {
 
 	public:
-		// Contact(void);
-		// ~Contact(void);
+
 		bool setFirstName(const std::string &first_name);
 		bool setLastName(const std::string &last_name);
 		bool setNickName(const std::string &nickname);
