@@ -6,7 +6,7 @@
 /*   By: dlima <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 13:06:04 by dlima             #+#    #+#             */
-/*   Updated: 2024/06/04 17:01:28 by dlima            ###   ########.fr       */
+/*   Updated: 2024/06/05 12:08:44 by dlima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-
+#include <cstdlib>
+#include <unistd.h>
 
 static std::string trim(const std::string &str)
 {
@@ -69,14 +70,16 @@ void	valid_command_prompt(void)
 	std::cout << "Please enter one of the following commands: " << std::endl;
 	std::cout << "[ADD] -> to add a new contact" << std::endl;
 	std::cout << "[SEARCH] -> to display the info of a contact" << std::endl;
-	std::cout << "[EXIT] -> to exit the program" << std::endl;
+	std::cout << "[EXIT] -> to exit the program" << std::endl << std::endl;
+	std::cout << "Please enter a command: ";
 }
 
 void	invalid_command_prompt(const std::string &prompt)
 {
-	std::cout << "Invalid " << prompt << ", try again..." <<std::endl;
-	if (prompt == COMMAND)
-		valid_command_prompt();
+	std::string str;
+	std::cout << "Invalid " << prompt << ", try again..." << std::endl;
+	usleep(700000);
+
 }
 
 const std::string read_input(const std::string &prompt)
@@ -97,7 +100,7 @@ void create_new_contact(PhoneBook &pBook)
 {
 	Contact new_contact;
 
-	std::cout << "Please introduce your new contact info" << std::endl;
+	std::cout << std::endl << "Please introduce your new contact info" << std::endl << std::endl;
 	while (!new_contact.setFirstName(read_input(FIRST_NAME)))
 	{
 		if (std::cin.eof())
@@ -131,43 +134,35 @@ void create_new_contact(PhoneBook &pBook)
 	if (std::cin.eof())
 		return ;
 	pBook.addContact(new_contact);
-	valid_command_prompt();
 }
 
-void	search_contact(PhoneBook &pBook)
-{
-	std::cout << std::setw(10) << std::right << truncate_str("INDEX") << "|";
-	std::cout << std::setw(10) << std::right << truncate_str("FIRST NAME") << "|";
-	std::cout << std::setw(10) << std::right << truncate_str("LAST NAME") << "|";
-	std::cout << std::setw(10) << std::right << truncate_str("NICKNAME") << "|" << std::endl;
-	pBook.printAllContacts();
-}
 void	process_input(void)
 {
 	std::string new_line;
 	PhoneBook pBook;
-	while(std::getline(std::cin, new_line))
-	{
+
+	do {
+		system("clear");
+		valid_command_prompt();
+		std::getline(std::cin, new_line);
 		if (new_line == "ADD")
 			create_new_contact(pBook);
 		else if (new_line == "SEARCH")
-			search_contact(pBook);
+			pBook.searchContacts();
 		else if (new_line == "EXIT")
 		{
 			std::cout << "Exiting..." << std::endl;
 			break ;
 		}
-		else
+		else if (!std::cin.eof())
+		{
 			invalid_command_prompt(COMMAND);
-	}
+		}
+	} while (!std::cin.eof());
 }
-int main (int argc, char **argv)
+int main ()
 {
-
-	(void)argc;
-	(void)argv;
-	std::cout << "WELCOME to Phone Book" << std::endl;
-	valid_command_prompt();
+	std::cout << "WELCOME to Phone Book" << std::endl << std::endl;
 	process_input();
 	return (0);
 }

@@ -32,7 +32,7 @@ class PhoneBook {
 	public:
 		PhoneBook(void);
 		void	addContact(const Contact &new_contact);
-		void	printAllContacts() const;
+		void	searchContacts() const;
 	private:
 		Contact _contacts[MAX_CONTACTS];
 		int	_n_contacts;

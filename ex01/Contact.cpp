@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 
-// void	invalid_command_prompt(const std::string &prompt);
 void Contact::printContact() const
 {
 	std::cout << "First Name: " << _first_name << std::endl;
