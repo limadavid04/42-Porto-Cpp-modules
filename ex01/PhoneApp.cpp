@@ -6,7 +6,7 @@
 /*   By: dlima <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 13:06:04 by dlima             #+#    #+#             */
-/*   Updated: 2024/06/05 12:08:44 by dlima            ###   ########.fr       */
+/*   Updated: 2024/06/05 12:27:10 by dlima            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 static std::string trim(const std::string &str)
 {
 	std::string trimmed = str;
-	trimmed.erase(0, trimmed.find_first_not_of("\t\n\v\f\r ")); // left trim
-	trimmed.erase(trimmed.find_last_not_of("\t\n\v\f\r ") + 1); // right trim
+	trimmed.erase(0, trimmed.find_first_not_of("\t\n\v\f\r "));
+	trimmed.erase(trimmed.find_last_not_of("\t\n\v\f\r ") + 1);
 	return (trimmed);
 }
 
@@ -48,19 +48,19 @@ bool strIsAlpha (std::string str)
 bool strIsDigit(std::string &str)
 {
 	std::string::iterator i;
-	bool isSpaceAllowed = true; // flag to track if space is allowed between digits
+	bool isSpaceAllowed = true;
 	for (i = str.begin(); i < str.end(); i++)
 	{
 		if (isdigit(*i))
-			isSpaceAllowed = true; // reset the flag if a digit is encountered
+			isSpaceAllowed = true;
 		else if (isspace(*i))
 		{
 			if (!isSpaceAllowed)
-				return false; // return false if space is not allowed between digits
-			isSpaceAllowed = false; // set the flag to false after encountering a space
+				return false;
+			isSpaceAllowed = false;
 		}
 		else
-			return false; // return false if a non-digit and non-space character is encountered
+			return false;
 	}
 	return true;
 }
@@ -78,8 +78,6 @@ void	invalid_command_prompt(const std::string &prompt)
 {
 	std::string str;
 	std::cout << "Invalid " << prompt << ", try again..." << std::endl;
-	usleep(700000);
-
 }
 
 const std::string read_input(const std::string &prompt)
@@ -96,6 +94,7 @@ const std::string read_input(const std::string &prompt)
 		return (strIsDigit(new_line) ? trim(new_line): std::string());
 	return trim(new_line);
 }
+
 void create_new_contact(PhoneBook &pBook)
 {
 	Contact new_contact;
@@ -157,9 +156,11 @@ void	process_input(void)
 		else if (!std::cin.eof())
 		{
 			invalid_command_prompt(COMMAND);
+			usleep(700000);
 		}
 	} while (!std::cin.eof());
 }
+
 int main ()
 {
 	std::cout << "WELCOME to Phone Book" << std::endl << std::endl;
