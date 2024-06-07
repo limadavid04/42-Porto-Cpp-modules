@@ -1,9 +1,9 @@
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
-SRCS = newZombie.cpp randomChump.cpp Zombie.cpp main.cpp
-NAME = ex00
-HEADERS = Zombie.hpp
+SRCS = main.cpp Harl.cpp
+NAME = harlFilter
+HEADERS = Harl.hpp
 
 all: $(NAME)
 
