@@ -37,22 +37,22 @@ Fixed Fixed::operator/(const Fixed &src) const {
 	return (Fixed(this->toFloat() / src.toFloat()));
 }
 bool Fixed::operator<(const Fixed &src) const {
-	return (this->toFloat() < src.toFloat());
+	return (_fp_value < src._fp_value);
 }
 bool Fixed::operator<=(const Fixed &src) const {
-	return (this->toFloat() <= src.toFloat());
+	return (_fp_value <= src._fp_value);
 }
 bool Fixed::operator>(const Fixed &src) const {
-	return (this->toFloat() > src.toFloat());
+	return (_fp_value > src._fp_value);
 }
 bool Fixed::operator>=(const Fixed &src) const {
-	return (this->toFloat() >= src.toFloat());
+	return (_fp_value >= src._fp_value);
 }
 bool Fixed::operator==(const Fixed &src) const {
-	return (this->toFloat() == src.toFloat());
+	return (_fp_value == src._fp_value);
 }
 bool Fixed::operator!=(const Fixed &src) const {
-	return (this->toFloat() != src.toFloat());
+	return (_fp_value != src._fp_value);
 }
 Fixed & Fixed::operator++(void) {
 	_fp_value++;
