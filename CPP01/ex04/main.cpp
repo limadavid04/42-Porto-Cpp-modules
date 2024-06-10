@@ -25,7 +25,6 @@ void replaceString(std::ifstream& in_stream, std::ofstream& out_stream, const st
 
 		if (start != std::string::npos)
 			buffer += line.substr(start);
-
 		out_stream << buffer << std::endl;
 	}
 }
