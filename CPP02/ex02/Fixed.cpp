@@ -14,7 +14,7 @@ Fixed::Fixed(const int n) {
 }
 
 Fixed::Fixed(const float n) {
-	_fp_value = roundf(n * (1 << _fp_frac_bits));
+	_fp_value = roundf(n * (float)(1 << _fp_frac_bits));
 }
 
 Fixed::~Fixed() {}
@@ -25,10 +25,14 @@ Fixed & Fixed::operator=(const Fixed &src) {
 	return (*this);
 }
 Fixed Fixed::operator+(const Fixed &src) const {
-	return (Fixed(this->_fp_value + src._fp_value));
+	Fixed tmp;
+	tmp.setRawBits(this->_fp_value + src._fp_value);
+	return (tmp);
 }
 Fixed Fixed::operator-(const Fixed &src) const {
-	return (Fixed(this->_fp_value - src._fp_value));
+	Fixed tmp;
+	tmp.setRawBits(this->_fp_value - src._fp_value);
+	return (tmp);
 }
 Fixed Fixed::operator*(const Fixed &src) const {
 	return (Fixed(this->toFloat() * src.toFloat()));
@@ -86,7 +90,7 @@ void Fixed::setRawBits(int const raw)
 }
 
 float Fixed::toFloat(void) const {
-	return ((float)_fp_value / (1 << _fp_frac_bits));
+	return ((float)_fp_value / (float)(1 << _fp_frac_bits));
 }
 
 int	Fixed::toInt(void) const {

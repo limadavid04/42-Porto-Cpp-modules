@@ -13,4 +13,5 @@ class Harl {
 		void warning( void );
 		void error( void );
 };
+
 #endif
