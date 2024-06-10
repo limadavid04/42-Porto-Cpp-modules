@@ -1,14 +1,6 @@
 #ifndef FIXED_HPP
 #define FIXED_HPP
 
-// A static member function min that takes as parameters two references on fixed-point
-// numbers, and returns a reference to the smallest one.
-// • A static member function min that takes as parameters two references to constant
-// fixed-point numbers, and returns a reference to the smallest one.
-// • A static member function max that takes as parameters two references on fixed-point
-// numbers, and returns a reference to the greatest one.
-// • A static member function max that takes as parameters two references to constant
-// fixed-point numbers, and returns a reference to the greatest one.
 #include <iostream>
 class Fixed {
 	public:

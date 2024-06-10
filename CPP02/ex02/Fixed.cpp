@@ -3,33 +3,25 @@
 #include <cmath>
 #include <climits>
 
-Fixed::Fixed(void) : _fp_value(0) {
-	std::cout << "Default constructor called" << std::endl;
-}
+Fixed::Fixed(void) : _fp_value(0) {}
 
 Fixed::Fixed(const Fixed &cpy) {
-	std::cout << "Copy constructor called" << std::endl;
 	*this = cpy;
 }
 
 Fixed::Fixed(const int n) {
-	std::cout << "Int constructor called" << std::endl;
 	_fp_value = n << _fp_frac_bits;
 }
 
 Fixed::Fixed(const float n) {
-	std::cout << "Float constructor called" << std::endl;
 	_fp_value = roundf(n * (1 << _fp_frac_bits));
 }
 
-Fixed::~Fixed() {
-	std::cout << "Destructor called" << std::endl;
-}
+Fixed::~Fixed() {}
 
 Fixed & Fixed::operator=(const Fixed &src) {
 	if (this != &src)
 		_fp_value = src._fp_value;
-	std::cout << "Copy assignment operator called" << std::endl;
 	return (*this);
 }
 Fixed Fixed::operator+(const Fixed &src) const {
@@ -63,31 +55,24 @@ bool Fixed::operator!=(const Fixed &src) const {
 	return (this->toFloat() != src.toFloat());
 }
 Fixed & Fixed::operator++(void) {
+	_fp_value++;
+	return (*this);
+}
 
-	float fl = this->toFloat();
-	++fl;
-	_fp_value = roundf(fl * (1 << _fp_frac_bits));
-	return (*this);
-}
 Fixed & Fixed::operator--(void){
-	float fl = this->toFloat();
-	--fl;
-	_fp_value = roundf(fl * (1 << _fp_frac_bits));
+	_fp_value--;
 	return (*this);
 }
+
 Fixed Fixed::operator++(int){
 	Fixed tmp = *this;
-	float fl = this->toFloat();
-	fl++;
-	_fp_value = roundf(fl * (1 << _fp_frac_bits));
+	_fp_value++;
 	return (tmp);
 }
 
 Fixed Fixed::operator--(int){
 	Fixed tmp = *this;
-	float fl = this->toFloat();
-	fl--;
-	_fp_value = roundf(fl * (1 << _fp_frac_bits));
+	_fp_value--;
 	return (tmp);
 }
 
