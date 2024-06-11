@@ -3,18 +3,20 @@
 #include <iostream>
 
 // Default constructor
-ScavTrap::ScavTrap() : ClapTrap()
+ScavTrap::ScavTrap()
 {
-	std::cout << "Default ScavTrap constructor called" << std::endl;
+	_name = "Default";
 	_hit_points = 100;
 	_energy_points = 50;
 	_attack_damage = 20;
+	std::cout << "Default ScavTrap constructor called" << std::endl;
 }
 
 // Copy constructor
 ScavTrap::ScavTrap(const ScavTrap &cpy) : ClapTrap(cpy)
 {
 	std::cout << "ScavTrap copy constructor  called" << std::endl;
+	*this = cpy;
 }
 
 // Assignment operator
@@ -31,9 +33,10 @@ ScavTrap::~ScavTrap()
 	std::cout << "ScavTrap destructor called" << std::endl;
 }
 
-ScavTrap::ScavTrap(const std::string &name) : ClapTrap(name)
+ScavTrap::ScavTrap(const std::string &name)
 {
 	std::cout << "Parameterized ScavTrap constructor called" << std::endl;
+	_name = name;
 	_hit_points = 100;
 	_energy_points = 50;
 	_attack_damage = 20;

@@ -7,7 +7,7 @@ int main() {
 	defaultTrap.attack("target1");
 	defaultTrap.takeDamage(5);
 	defaultTrap.beRepaired(3);
-
+	defaultTrap.guardGate();
 	// Test that ScavTrap can't attack or repair itself when it has no energy points
 	defaultTrap.takeDamage(10);
 	defaultTrap.attack("target1"); // Should not be able to attack
@@ -16,8 +16,8 @@ int main() {
 	std::cout << "-----------------" <<std::endl;
 
 	// Create a ScavTrap with a custom name
-	ScavTrap customTrap;
-	customTrap = defaultTrap;
+	ScavTrap customTrap("scav_2");
+
 	customTrap.attack("target2");
 	customTrap.takeDamage(7);
 	customTrap.beRepaired(4);
