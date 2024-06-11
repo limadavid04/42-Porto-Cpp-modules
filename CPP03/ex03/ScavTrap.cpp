@@ -3,7 +3,7 @@
 #include <iostream>
 
 // Default constructor
-ScavTrap::ScavTrap() : ClapTrap()
+ScavTrap::ScavTrap()
 {
 	_name = "Default";
 	_hit_points = 100;
