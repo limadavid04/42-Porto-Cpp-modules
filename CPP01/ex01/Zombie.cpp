@@ -1,7 +1,7 @@
 #include "Zombie.hpp"
 #include <iostream>
 
-
+Zombie::Zombie() {}
 Zombie::~Zombie()
 {
 	std::cout << _name << ": was destroyed" << std::endl;
