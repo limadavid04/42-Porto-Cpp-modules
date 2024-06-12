@@ -3,13 +3,14 @@
 #include <iostream>
 
 
+unsigned int const ScavTrap::_scav_energy_points = 50;
 
 // Default constructor
 ScavTrap::ScavTrap() : ClapTrap()
 {
 	// _name = "Default";
 	_hit_points = 100;
-	_energy_points = 50;
+	_energy_points = _scav_energy_points;
 	_attack_damage = 20;
 	std::cout << "Default ScavTrap constructor called" << std::endl;
 }
@@ -62,7 +63,4 @@ void ScavTrap::guardGate()
 {
 	std::cout << "ScavTrap is now in gateKeeper mode" << std::endl;
 }
-unsigned int ScavTrap::getEnergyPoints() const
-{
-	return (_energy_points);
-}
+

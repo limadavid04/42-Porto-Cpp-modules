@@ -9,15 +9,10 @@
 DiamondTrap::DiamondTrap() : ClapTrap("default_clap_trap")
 {
 	std::cout << "Default DiamondTrap constructor called" << std::endl;
-	std::cout<< std::endl << "/*---------Ignore-----------*/" << std::endl;
-	FragTrap frag;
-	ScavTrap scav;
-	std::cout << "/*---------Ignore-----------*/" << std::endl << std::endl;
-	_name = "default_diamondTrap";
-	_hit_points = frag.getHitPoints();
-	_energy_points = scav.getEnergyPoints();
-	_attack_damage = frag.getAttackDamage();
-
+	_name = "default_diamond";
+	_hit_points = _frag_hit_points;
+	_energy_points = _scav_energy_points;
+	_attack_damage = _frag_attack_damage;
 }
 
 DiamondTrap::DiamondTrap(const DiamondTrap &cpy) : ClapTrap(cpy), FragTrap(cpy), ScavTrap(cpy)
@@ -40,17 +35,13 @@ DiamondTrap & DiamondTrap::operator=( const DiamondTrap & src)
 	return *this;
 }
 
-DiamondTrap::DiamondTrap(const std::string &name): ClapTrap(name + "_clap_trap"), FragTrap(name), ScavTrap(name)
+DiamondTrap::DiamondTrap(const std::string &name): ClapTrap(name + "_clap_trap")
 {
 	std::cout << "Parameterized DiamondTrap constructor called" << std::endl;
-	std::cout <<std::endl <<"/*---------Ignore-----------*/" << std::endl;
-	FragTrap frag;
-	ScavTrap scav;
-	std::cout << "/*---------Ignore-----------*/" << std::endl << std::endl;
 	_name = name;
-	_hit_points = frag.getHitPoints();
-	_energy_points = scav.getEnergyPoints();
-	_attack_damage = frag.getAttackDamage();
+	_hit_points = _frag_hit_points;
+	_energy_points = _scav_energy_points;
+	_attack_damage = _frag_attack_damage;
 }
 
 void DiamondTrap::whoAmI() {
