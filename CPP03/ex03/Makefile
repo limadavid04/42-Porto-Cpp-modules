@@ -1,9 +1,9 @@
 
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
-SRCS = main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp
-NAME = ex02
-HEADERS = ClapTrap.hpp ScavTrap.hpp FragTrap.hpp
+SRCS = main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp
+NAME = ex03
+HEADERS = ClapTrap.hpp ScavTrap.hpp FragTrap.hpp DiamondTrap.hpp
 
 all: $(NAME)
 

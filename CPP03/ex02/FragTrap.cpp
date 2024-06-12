@@ -6,7 +6,7 @@
 // Default constructor
 FragTrap::FragTrap() : ClapTrap()
 {
-	_name = "Default";
+	// _name = "Default";
 	_hit_points = 100;
 	_energy_points = 100;
 	_attack_damage = 30;
@@ -37,7 +37,7 @@ FragTrap::~FragTrap()
 FragTrap::FragTrap(const std::string &name) : ClapTrap(name)
 {
 	std::cout << "Parameterized FragTrap constructor called" << std::endl;
-	_name = name;
+	// _name = name;
 	_hit_points = 100;
 	_energy_points = 100;
 	_attack_damage = 30;

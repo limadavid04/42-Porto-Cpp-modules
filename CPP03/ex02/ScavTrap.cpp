@@ -5,7 +5,7 @@
 // Default constructor
 ScavTrap::ScavTrap() : ClapTrap()
 {
-	_name = "Default";
+	// _name = "Default";
 	_hit_points = 100;
 	_energy_points = 50;
 	_attack_damage = 20;
@@ -36,7 +36,7 @@ ScavTrap::~ScavTrap()
 ScavTrap::ScavTrap(const std::string &name) : ClapTrap(name)
 {
 	std::cout << "Parameterized ScavTrap constructor called" << std::endl;
-	_name = name;
+	// _name = name;
 	_hit_points = 100;
 	_energy_points = 50;
 	_attack_damage = 20;

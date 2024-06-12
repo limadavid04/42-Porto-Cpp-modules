@@ -3,7 +3,7 @@
 
 #include "ClapTrap.hpp"
 
-class ScavTrap : public ClapTrap {
+class ScavTrap : virtual public ClapTrap {
 	public:
 		ScavTrap();
 		ScavTrap(const ScavTrap &cpy);
@@ -14,5 +14,7 @@ class ScavTrap : public ClapTrap {
 
 		void attack(const std::string& target);
 		void guardGate();
+		unsigned int getEnergyPoints() const;
+
 };
 #endif

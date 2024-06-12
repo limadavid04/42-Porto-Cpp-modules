@@ -4,6 +4,8 @@
 int main() {
 	// Create a ScavTrap with default name
 	ScavTrap defaultTrap("Scav_1");
+	ScavTrap Trap_1;
+	Trap_1.attack("ola");
 	defaultTrap.attack("target1");
 	defaultTrap.takeDamage(5);
 	defaultTrap.beRepaired(3);

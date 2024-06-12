@@ -4,6 +4,8 @@
 int main() {
 	// Create a FragTrap with default name
 	FragTrap defaultTrap("FRAG_1");
+	FragTrap Trap;
+	Trap.beRepaired(10);
 	defaultTrap.attack("target1");
 	defaultTrap.takeDamage(5);
 	defaultTrap.beRepaired(3);
