@@ -14,7 +14,9 @@ class FragTrap : virtual public ClapTrap {
 
 		void attack(const std::string& target);
 		void highFivesGuys(void);
-		unsigned int getHitPoints() const;
-		unsigned int getAttackDamage() const;
+	protected:
+		static unsigned int const _frag_hit_points;
+		static unsigned int const _frag_attack_damage;
+
 };
 #endif

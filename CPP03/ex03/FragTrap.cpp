@@ -3,14 +3,15 @@
 
 #include <iostream>
 
-
+unsigned int const FragTrap::_frag_hit_points  = 100;
+unsigned int const FragTrap::_frag_attack_damage = 30;
 // Default constructor
 FragTrap::FragTrap() : ClapTrap()
 {
 	// _name = "Default";
-	_hit_points = 100;
+	_hit_points = _frag_hit_points;
 	_energy_points = 100;
-	_attack_damage = 30;
+	_attack_damage = _frag_attack_damage;
 	std::cout << "Default FragTrap constructor called" << std::endl;
 }
 
@@ -61,11 +62,3 @@ void FragTrap::highFivesGuys()
 	std::cout <<"FragTrap "<< _name <<" highFivesGuys!!" << std::endl;
 }
 
-unsigned int FragTrap::getHitPoints() const
-{
-	return (_hit_points);
-}
-unsigned int FragTrap::getAttackDamage() const
-{
-	return(_attack_damage);
-}
