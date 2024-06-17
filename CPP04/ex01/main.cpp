@@ -37,6 +37,7 @@ int main()
 	std::cout << "************----Constructing Dogs-----*********"<< std::endl;
 	Dog *dog = new Dog();
 	Dog *dog_2 = new Dog(*dog);
+
 	std::cout << "************---------*********"<< std::endl << std::endl;
 
 	std::cout << "************----Deleting Dogs----*********"<< std::endl;

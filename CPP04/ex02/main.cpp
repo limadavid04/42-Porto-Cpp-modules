@@ -7,7 +7,6 @@
 
 int main()
 {
-
 	// Animal animal;
 	int N = 10;
 	Animal *animals[N];
