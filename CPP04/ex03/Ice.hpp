@@ -13,8 +13,7 @@ class Ice : public AMateria {
 		~Ice();
 		Ice const & operator=(Ice const &src);
 
-		std::string const & getType() const;
-		AMateria* clone() const = 0;
+		AMateria* clone() const;
 		void use(ICharacter& target);
 };
 #endif

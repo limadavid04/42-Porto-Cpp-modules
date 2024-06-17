@@ -3,18 +3,18 @@
 
 AMateria::AMateria()
 {
-	std::cout << "Default AAmateria constructor called" <<std::endl;
+	// std::cout << "Default AAmateria constructor called" <<std::endl;
 }
 
 AMateria::AMateria(AMateria const &cpy)
 {
-	std::cout << "AAmateria copy constructor called" <<std::endl;
+	// std::cout << "AAmateria copy constructor called" <<std::endl;
 	*this = cpy;
 }
 
 AMateria::~AMateria()
 {
-	std::cout << "Amateria destructor called" <<std::endl;
+	// std::cout << "Amateria destructor called" <<std::endl;
 }
 
 AMateria const & AMateria::operator=(AMateria const &src)
@@ -26,7 +26,7 @@ AMateria const & AMateria::operator=(AMateria const &src)
 
 AMateria::AMateria(std::string const & type) : _type(type)
 {
-	std::cout << "Param Amateria constructor called" <<std::endl;
+	// std::cout << "Param Amateria constructor called" <<std::endl;
 }
 
 std::string const & AMateria::getType() const
@@ -34,11 +34,11 @@ std::string const & AMateria::getType() const
 	return _type;
 }
 
-void AMateria::use(ICharacter& target) {
-	// Implementation of the use() function
-}
+// void AMateria::use(ICharacter& target) {
+// 	if (_type == "ice")
+//  		std::cout <<"* shoots an ice bolt at " << target.getName() << " *" << std::endl;
+// 	else if (_type == "cure")
+// 		std::cout << "* heals "<< target.getName() <<"'s wounds *" <<std::endl;
+// }
 
-AMateria* AMateria::clone() const {
-	// Implementation of the clone() function
-	return nullptr; // Replace with the actual implementation
-}
+

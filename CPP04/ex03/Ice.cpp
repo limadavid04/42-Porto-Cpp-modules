@@ -4,39 +4,33 @@
 
 Ice::Ice()
 {
-	std::cout << "Default Ice constructor called" <<std::endl;
+	// std::cout << "Default Ice constructor called" <<std::endl;
 	_type = "ice";
 }
 
-Ice::Ice(Ice const &cpy)
+Ice::Ice(Ice const &cpy) : AMateria(cpy)
 {
-	std::cout << "Ice copy constructor called" <<std::endl;
-	*this = cpy;
+	// std::cout << "Ice copy constructor called" <<std::endl;
+
 }
 
 Ice::~Ice()
 {
-	std::cout << "Ice destructor called" <<std::endl;
+	// std::cout << "Ice destructor called" <<std::endl;
 }
 
 Ice const & Ice::operator=(Ice const &src)
 {
+	(void)src;
 	_type = "ice";
 	return *this;
 }
 
-
-std::string const & Ice::getType() const
+void Ice::use(ICharacter& target)
 {
-	return _type;
-}
-
-void AMateria::use(ICharacter& target)
-{
-	// Implementation of the use() function
+	std::cout <<"* shoots an ice bolt at " << target.getName() << " *" << std::endl;
 }
 
 AMateria* Ice::clone() const {
-	// Implementation of the clone() function
-	// Replace with the actual implementation
+	return (new Ice());
 }

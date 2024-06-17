@@ -13,8 +13,8 @@ class Cure : public AMateria {
 		~Cure();
 		Cure const & operator=(Cure const &src);
 
-		std::string const & getType() const;
-		AMateria* clone() const = 0;
+		AMateria* clone() const;
 		void use(ICharacter& target);
+
 };
 #endif

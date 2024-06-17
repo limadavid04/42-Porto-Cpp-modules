@@ -3,6 +3,8 @@
 
 #include "AMateria.hpp"
 #include "ICharacter.hpp"
+#include <string>
+
 class Character : public ICharacter
 {
 	public:
@@ -11,9 +13,13 @@ class Character : public ICharacter
 		const Character & operator=(const Character &src);
 		~Character();
 
+		Character(std::string const &name);
 		std::string const & getName() const;
 		void equip(AMateria* m);
 		void unequip(int idx);
-		void use(int idx, Character& target);
+		void use(int idx, ICharacter& target);
+	private:
+		std::string _name;
+		AMateria * _inventory[4];
 };
 #endif

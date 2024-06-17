@@ -4,39 +4,32 @@
 
 Cure::Cure()
 {
-	std::cout << "Default Cure constructor called" <<std::endl;
-	_type = "Cure";
+	// std::cout << "Default Cure constructor called" <<std::endl;
+	_type = "cure";
 }
 
-Cure::Cure(Cure const &cpy)
+Cure::Cure(Cure const &cpy) : AMateria(cpy)
 {
-	std::cout << "Cure copy constructor called" <<std::endl;
-	*this = cpy;
+	// std::cout << "Cure copy constructor called" <<std::endl;
+
 }
 
 Cure::~Cure()
 {
-	std::cout << "Cure destructor called" <<std::endl;
+	// std::cout << "Cure destructor called" <<std::endl;
 }
 
 Cure const & Cure::operator=(Cure const &src)
 {
-	_type = "Cure";
+	(void)src;
+	_type = "cure";
 	return *this;
 }
-
-
-std::string const & Cure::getType() const
+void Cure::use(ICharacter& target)
 {
-	return _type;
-}
-
-void AMateria::use(ICharacter& target)
-{
-	// Implementation of the use() function
+	std::cout << "* heals "<< target.getName() <<"'s wounds *" <<std::endl;
 }
 
 AMateria* Cure::clone() const {
-	// Implementation of the clone() function
-	// Replace with the actual implementation
+	return (new Cure());
 }
