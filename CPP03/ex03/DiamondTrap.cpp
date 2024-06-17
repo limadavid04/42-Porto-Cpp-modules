@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-DiamondTrap::DiamondTrap() : ClapTrap("default_clap_trap")
+DiamondTrap::DiamondTrap() : ClapTrap(), FragTrap(), ScavTrap()
 {
 	std::cout << "Default DiamondTrap constructor called" << std::endl;
 	_name = "default_diamond";
