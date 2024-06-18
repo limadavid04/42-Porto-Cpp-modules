@@ -55,11 +55,13 @@
 		if (i < 4)
 			_inventory[i] = m;
 	}
+
 	void Character::unequip(int idx)
 	{
 		if (idx < 4)
 			_inventory[idx] = NULL;
 	}
+	
 	void Character::use(int idx, ICharacter& target)
 	{
 		if (!(idx < 4) || _inventory[idx] != NULL)

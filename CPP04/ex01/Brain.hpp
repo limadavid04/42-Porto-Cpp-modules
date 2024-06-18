@@ -8,7 +8,7 @@ class Brain {
 		Brain();
 		Brain(const Brain &cpy);
 		Brain & operator=( const Brain & src);
-		virtual ~Brain();
+		~Brain();
 
 	private:
 		std::string ideas[100];
