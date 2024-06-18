@@ -6,6 +6,7 @@ Bureaucrat::Bureaucrat() :_name("default"), _grade(0){
 }
 Bureaucrat::Bureaucrat(const Bureaucrat & cpy) {
 	std::cout << "Bureaucrat copy constructor called" << std::endl;
+	*this = cpy;
 }
 Bureaucrat & Bureaucrat::operator=(const Bureaucrat &src) {
 	if (this != &src)
@@ -14,12 +15,13 @@ Bureaucrat & Bureaucrat::operator=(const Bureaucrat &src) {
 	}
 	return (*this);
 }
+
 Bureaucrat::Bureaucrat(const std::string &name, int grade) : _name(name), _grade(grade) {
 	std::cout << "Bureaucrat Param constructor called" << std::endl;
 	try {
 		checkGrade(grade);
 	} catch (const std::exception& e) {
-		std::cerr << "Exception :" << e.what() << std::endl;
+		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 }
 
@@ -27,15 +29,14 @@ Bureaucrat::~Bureaucrat() {
 	std::cout << "Bureaucrat Desctructor called" << std::endl;
 }
 
-const int Bureaucrat::getGrade() const {
+int Bureaucrat::getGrade() const {
 	return _grade;
 }
-const std::string Bureaucrat::getName() const {
+std::string Bureaucrat::getName() const {
 	return _name;
 }
 
 void Bureaucrat::checkGrade(int grade) {
-
 	if (grade > 150)
 		throw Bureaucrat::GradeTooLowException();
 	else if (grade < 1)
@@ -48,7 +49,7 @@ void Bureaucrat::incrementGrade(int value) {
 		else
 			_grade -= value;
 	} catch (Bureaucrat::GradeTooHighException &e) {
-			std::cerr << "Exception :" << e.what() << std::endl;
+			std::cerr << "Exception: " << e.what() << std::endl;
 	}
 }
 
@@ -59,7 +60,7 @@ void Bureaucrat::decrementGrade(int value) {
 		else
 			_grade += value;
 	} catch (Bureaucrat::GradeTooLowException &e) {
-			std::cerr << "Exception :" << e.what() << std::endl;
+			std::cerr << "Exception: " << e.what() << std::endl;
 	}
 }
 const char* Bureaucrat::GradeTooHighException::what() const throw() {
@@ -72,4 +73,5 @@ const char* Bureaucrat::GradeTooLowException::what() const throw() {
 std::ostream & operator<<(std::ostream &out, const Bureaucrat &bureaucrat)
 {
 	out << bureaucrat.getName() << " , bureaucrat grade " << bureaucrat.getGrade() << std::endl;
+	return out;
 }

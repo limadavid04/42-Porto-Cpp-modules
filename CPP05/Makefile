@@ -1,8 +1,8 @@
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -g
-SRCS = BureauCrat.cpp main.cpp
+SRCS = Bureaucrat.cpp main.cpp
 NAME = ex00
-HEADERS = BureauCrat.hpp
+HEADERS = Bureaucrat.hpp
 
 all: $(NAME)
 
