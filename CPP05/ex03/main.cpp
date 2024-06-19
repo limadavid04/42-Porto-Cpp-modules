@@ -13,7 +13,9 @@ int main()
 	AForm *R = A.makeForm("robotomy request", "robot");
 	AForm *S = A.makeForm("shrubbery creation", "shrubbery");
 	AForm *P = A.makeForm("presidential pardon", "presidential");
+	// AForm *n = A.makeForm("wrong", "z");
 
+	// (void)n;
 	std::cout << B << std::endl <<std::endl;
 	std::cout << *R << std::endl<<std::endl;
 	std::cout << *S << std::endl<<std::endl;

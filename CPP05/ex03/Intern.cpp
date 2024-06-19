@@ -41,6 +41,6 @@ AForm *Intern::makeForm(std::string name, std::string target) {
 	for (int i = 0; i < 3; i++)
 		if (name == _form_names[i])
 			return (this->*p[i])(target);
-	std::cout << "There's no " << name << "form available" << std::endl;
+	std::cout << "There's no " << name << " form available" << std::endl;
 	return (NULL);
 }
