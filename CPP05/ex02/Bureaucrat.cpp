@@ -63,8 +63,8 @@ void Bureaucrat::signForm(AForm &f) const {
 }
 void Bureaucrat::executeForm(AForm const & f) const {
 	try {
-		f.checkExecutionRequirements(*this);
 		f.execute(*this);
+		f.action();
 		std::cout << _name << " executed " << f.getName() << std::endl;
 	} catch (AForm::FormNotSignedException &e) {
 		std::cerr <<  _name << " couldn't execute "<< f.getName() <<" because " << e.what() << std::endl;

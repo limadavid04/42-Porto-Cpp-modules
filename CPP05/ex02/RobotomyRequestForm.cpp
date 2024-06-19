@@ -3,6 +3,7 @@
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
 #include <iostream>
+#include <cstdlib>
 
 RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequest-form",72, 45), _target("default") {
 	// Initialize _target or other members if needed
@@ -28,7 +29,11 @@ RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRe
 	// Initialize other members if needed
 }
 
-void RobotomyRequestForm::execute(Bureaucrat const & executor) const {
+void RobotomyRequestForm::action() const {
 	// Implement the execution logic
-	std::cout << "Executing RobotomyRequestForm for target: " << _target << " by executor: " << executor.getName() << std::endl;
+	std::cout << "Drilling Noises..." << std::endl;
+	if (rand() % 2) {
+		std::cout << _target <<" has been robotomized successfully" << std::endl;
+	} else
+		std::cout << "Robotomy failed." << std::endl;
 }

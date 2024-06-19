@@ -27,6 +27,6 @@ PresidentialPardonForm::PresidentialPardonForm(std::string target) : AForm("Pres
 	// Initialize other members if needed
 }
 
-void PresidentialPardonForm::execute(Bureaucrat const & executor) const {
+void PresidentialPardonForm::action() const {
 	std::cout << _target << " has been pardoned by Zafod Beeblebrox" << std::endl;
 }
