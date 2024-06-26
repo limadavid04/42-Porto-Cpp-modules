@@ -1,5 +1,6 @@
 #include "ScalarConverter.hpp"
 #include <iostream>
+#include <limits>
 int main(int argc, char **argv)
 {
 	if (argc != 2)

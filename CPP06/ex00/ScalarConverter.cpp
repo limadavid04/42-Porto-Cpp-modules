@@ -3,7 +3,7 @@
 #include <cctype>
 #include <sstream>
 #include <iostream>
-
+#include <cmath>
 
 ScalarType detectScalarType(const std::string& str) {
 	// Check if the str is a single character
@@ -27,23 +27,29 @@ ScalarType detectScalarType(const std::string& str) {
 			 if ((c == 'f' || c == 'F') && (floatStream.peek(), floatStream.eof())) {  // 'f' or 'F' is the last character, valid float literal
 				return FLOAT;
 			}
+		else if (str == "-inff" || str == "+inff" || str == "inff" ||str == "nanf")
+			return FLOAT;
 		}
 	}
-
 	// Check if the str can be parsed as a double
 	std::istringstream doubleStream(str);
 	double doubleValue;
 	if ((doubleStream >> doubleValue) && (doubleStream.eof())) {
 		return DOUBLE;
 	}
-
+	else if (str == "-inf" || str == "+inf" || str =="inf" || str == "nan")
+		return DOUBLE;
 	return UNKNOWN;
 }
 
 void convertChar(const std::string &str)
 {
 	char charValue = str[0];
-	std::cout << "Char: " << charValue << std::endl;
+	if (std::isprint(charValue)) {
+		std::cout << "Char: " << charValue << std::endl;
+	} else {
+		std::cout << "Char: " << "Non printable" << std::endl;
+	}
 	std::cout << "Int: " << static_cast<int>(charValue) << std::endl;
 	std::cout << "Float: " << static_cast<float>(charValue) << "f" <<std::endl;
 	std::cout << "Double: " << static_cast<double>(charValue) << std::endl;
@@ -52,7 +58,11 @@ void convertInt(const std::string &str)
 {
 	int intValue;
 	std::istringstream(str) >> intValue;
-	std::cout << "Char: " << static_cast<char>(intValue) << std::endl;
+	if (std::isprint(static_cast<int>(intValue))) {
+		std::cout << "Char: " << static_cast<char>(intValue) << std::endl;
+	} else {
+		std::cout << "Char: " << "Non printable" << std::endl;
+	}
 	std::cout << "Int: " << intValue << std::endl;
 	std::cout << "Float: " << static_cast<float>(intValue) << "f"<<std::endl;
 	std::cout << "Double: " << static_cast<double>(intValue) << std::endl;
@@ -60,20 +70,88 @@ void convertInt(const std::string &str)
 void convertFloat(const std::string &str)
 {
 	float floatValue;
-	std::istringstream(str) >> floatValue;
-	std::cout << "Char: " << static_cast<char>(floatValue) << std::endl;
-	std::cout << "Int: " << static_cast<int>(floatValue) << std::endl;
-	std::cout << "Float: " << floatValue << "f"<<std::endl;
-	std::cout << "Double: " << static_cast<double>(floatValue) << std::endl;
+	if (std::istringstream(str) >> floatValue)
+	{
+		if (floatValue > static_cast<float>(std::numeric_limits<int>::max()))
+		{
+			std::cout << "Char: " << "Impossible"<< std::endl;
+			std::cout << "Int: " << "overflow" << std::endl;
+		}
+		else if (floatValue < static_cast<float>(std::numeric_limits<int>::min()))
+		{
+			std::cout << "Char: " << "Impossible"<< std::endl;
+			std::cout << "Int: " << "underflow" << std::endl;
+		}
+		else
+		{
+			if (std::isprint(static_cast<int>(floatValue))) {
+				std::cout << "Char: " << static_cast<char>(floatValue) << std::endl;
+			} else {
+				std::cout << "Char: " << "Non printable" << std::endl;
+			}
+			std::cout << "Int: " << static_cast<int>(floatValue) << std::endl;
+		}
+		std::cout << "Float: " << floatValue << "f"<<std::endl;
+		std::cout << "Double: " << static_cast<double>(floatValue) << std::endl;
+	} else {
+		if (str == "-inff")
+			floatValue = -std::numeric_limits<float>::infinity();
+		 else if (str == "inff" || str == "+inff")
+			floatValue = std::numeric_limits<float>::infinity();
+		 else if (str == "nanf")
+			floatValue = std::numeric_limits<float>::quiet_NaN();
+
+		if (std::isinf(floatValue) || std::isnan(floatValue))
+		{
+			std::cout << "Char: " << "impossible" << std::endl;
+			std::cout << "Int: " << "impossible"  << std::endl;
+			std::cout << "Float: " << floatValue << "f"<<std::endl;
+			std::cout << "Double: " << static_cast<double>(floatValue) << std::endl;
+		}
+	}
 }
+
 void convertDouble(const std::string &str)
 {
 	double doubleValue;
-	std::istringstream(str) >> doubleValue;
-	std::cout << "Char: " << static_cast<char>(doubleValue) << std::endl;
-	std::cout << "Int: " << static_cast<int>(doubleValue) << std::endl;
-	std::cout << "Float: " << static_cast<float>(doubleValue) <<"f"<<std::endl;
-	std::cout << "Double: " << doubleValue << std::endl;
+
+	if (std::istringstream(str) >> doubleValue)
+	{
+		if (doubleValue > static_cast<double>(std::numeric_limits<int>::max()))
+		{
+			std::cout << "Char: " << "impossible" << std::endl;
+			std::cout << "Int: " << "overflow" << std::endl;
+		}
+		else if (doubleValue < static_cast<double>(std::numeric_limits<int>::min()))
+		{
+			std::cout << "Char: " << "impossible" << std::endl;
+			std::cout << "Int: " << "underflow" << std::endl;
+		}
+		else {
+			if (std::isprint(static_cast<int>(doubleValue))) {
+				std::cout << "Char: " << static_cast<char>(doubleValue) << std::endl;
+			} else {
+				std::cout << "Char: " << "Non printable" << std::endl;
+			}
+			std::cout << "Int: " << static_cast<int>(doubleValue) << std::endl;
+		}
+		std::cout << "Float: " << static_cast<float>(doubleValue) << "f"<<std::endl;
+		std::cout << "Double: " << doubleValue << std::endl;
+	} else {
+		if (str == "-inf")
+			doubleValue = -std::numeric_limits<double>::infinity();
+		 else if (str == "inf" || str == "+inf")
+			doubleValue = std::numeric_limits<double>::infinity();
+		 else if (str == "nan")
+			doubleValue = std::numeric_limits<double>::quiet_NaN();
+		if (std::isinf(doubleValue) || std::isnan(doubleValue))
+		{
+			std::cout << "Char: " << "impossible" << std::endl;
+			std::cout << "Int: " << "impossible"  << std::endl;
+			std::cout << "Float: " << static_cast<float>(doubleValue) << "f"<<std::endl;
+			std::cout << "Double: " << doubleValue << std::endl;
+		}
+	}
 }
 
 void ScalarConverter::convert(const std::string &str) {
