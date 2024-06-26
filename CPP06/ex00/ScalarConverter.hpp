@@ -3,15 +3,13 @@
 
 #include <string>
 
-enum ScalarType {
-	CHAR,
-	INT,
-	FLOAT,
-	DOUBLE,
-	UNKNOWN
-};
 
 class ScalarConverter {
+	private:
+		ScalarConverter();
+		ScalarConverter(ScalarConverter &cpy);
+		~ScalarConverter();
+		ScalarConverter& operator=(const ScalarConverter &src);
 	public:
 		static void convert(const std::string &str);
 };

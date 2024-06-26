@@ -5,19 +5,40 @@
 #include <iostream>
 #include <cmath>
 #include <iomanip>
+
+enum ScalarType {
+	CHAR,
+	INT,
+	FLOAT,
+	DOUBLE,
+	UNKNOWN
+};
+
+ScalarConverter::ScalarConverter(){};
+
+ScalarConverter::~ScalarConverter(){};
+
+ScalarConverter::ScalarConverter(ScalarConverter &cpy) {
+	(void)cpy;
+};
+
+ScalarConverter& ScalarConverter::operator=(const ScalarConverter &src)
+{
+    (void)src;
+    return (*this);
+};
+
 ScalarType detectScalarType(const std::string& str) {
 	// Check if the str is a single character
 	if (str.length() == 1 && isprint(str[0]) && !isdigit(str[0])) {
 		return CHAR;
 	}
-
 	// Check if the str can be parsed as an integer
 	std::istringstream intStream(str);
 	int intValue;
 	if ((intStream >> intValue) && (intStream.eof())) {
 		return INT;
 	}
-
 	// Check if the str can be parsed as a float
 	std::istringstream floatStream(str);
 	float floatValue;
