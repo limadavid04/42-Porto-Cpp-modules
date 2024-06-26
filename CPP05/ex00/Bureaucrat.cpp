@@ -4,7 +4,7 @@
 Bureaucrat::Bureaucrat() :_name("default"), _grade(0){
 	std::cout << "Bureaucrat default constructor called" << std::endl;
 }
-Bureaucrat::Bureaucrat(const Bureaucrat & cpy) {
+Bureaucrat::Bureaucrat(const Bureaucrat & cpy) : _name(cpy.getName()) {
 	std::cout << "Bureaucrat copy constructor called" << std::endl;
 	*this = cpy;
 }
@@ -32,7 +32,7 @@ Bureaucrat::~Bureaucrat() {
 int Bureaucrat::getGrade() const {
 	return _grade;
 }
-std::string Bureaucrat::getName() const {
+const std::string & Bureaucrat::getName() const {
 	return _name;
 }
 
@@ -72,6 +72,6 @@ const char* Bureaucrat::GradeTooLowException::what() const throw() {
 
 std::ostream & operator<<(std::ostream &out, const Bureaucrat &bureaucrat)
 {
-	out << bureaucrat.getName() << " , bureaucrat grade " << bureaucrat.getGrade() << std::endl;
+	out << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade();
 	return out;
 }
