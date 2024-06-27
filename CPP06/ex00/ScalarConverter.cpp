@@ -24,8 +24,8 @@ ScalarConverter::ScalarConverter(ScalarConverter &cpy) {
 
 ScalarConverter& ScalarConverter::operator=(const ScalarConverter &src)
 {
-    (void)src;
-    return (*this);
+	(void)src;
+	return (*this);
 };
 
 ScalarType detectScalarType(const std::string& str) {
@@ -74,7 +74,7 @@ void convertChar(const std::string &str)
 {
 	char charValue = str[0];
 	if (std::isprint(charValue)) {
-		std::cout << "Char: " << charValue << std::endl;
+		std::cout << "Char: " <<"'"<<charValue<<"'"<< std::endl;
 	} else {
 		std::cout << "Char: " << "Non printable" << std::endl;
 	}
@@ -87,7 +87,7 @@ void convertInt(const std::string &str)
 	int intValue;
 	std::istringstream(str) >> intValue;
 	if (std::isprint(static_cast<int>(intValue))) {
-		std::cout << "Char: " << static_cast<char>(intValue) << std::endl;
+		std::cout << "Char: " << "'"<<static_cast<char>(intValue)<<"'"<< std::endl;
 	} else {
 		std::cout << "Char: " << "Non printable" << std::endl;
 	}
@@ -113,7 +113,7 @@ void convertFloat(const std::string &str)
 		else
 		{
 			if (std::isprint(static_cast<int>(floatValue))) {
-				std::cout << "Char: " << static_cast<char>(floatValue) << std::endl;
+				std::cout << "Char: " <<"'" <<static_cast<char>(floatValue)<<"'" << std::endl;
 			} else {
 				std::cout << "Char: " << "Non printable" << std::endl;
 			}
@@ -157,7 +157,7 @@ void convertDouble(const std::string &str)
 		}
 		else {
 			if (std::isprint(static_cast<int>(doubleValue))) {
-				std::cout << "Char: " << static_cast<char>(doubleValue) << std::endl;
+				std::cout << "Char: " << "'"<< static_cast<char>(doubleValue)<<"'"<< std::endl;
 			} else {
 				std::cout << "Char: " << "Non printable" << std::endl;
 			}

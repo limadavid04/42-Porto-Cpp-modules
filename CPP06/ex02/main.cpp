@@ -33,15 +33,15 @@ void identify(Base* p) {
 
 void identify(Base& p) {
 	try {
-		dynamic_cast<A &>(p);
+		(void)dynamic_cast<A &>(p);
 		std::cout << "A" << std::endl;
 	} catch (std::exception&) {
 		try {
-			dynamic_cast<B &>(p);
+			(void)dynamic_cast<B &>(p);
 			std::cout << "B" << std::endl;
 		} catch (std::exception&) {
 			try {
-				dynamic_cast<C &>(p);
+				(void)dynamic_cast<C &>(p);
 				std::cout << "C" << std::endl;
 			} catch (std::exception &)
 			{
@@ -50,8 +50,7 @@ void identify(Base& p) {
 		}
 	};
 }
-// It prints the actual type of the object pointed to by p: "A", "B" or "C". Using a pointer
-// inside this function is forbidden.
+
 int main()
 {
 	srand(time(0));
