@@ -18,8 +18,8 @@ Serializer::Serializer(Serializer &cpy) {
 
 Serializer& Serializer::operator=(const Serializer &src)
 {
-    (void)src;
-    return (*this);
+	(void)src;
+	return (*this);
 };
 uintptr_t Serializer::serialize(Data* ptr) {
 	return (reinterpret_cast<uintptr_t>(ptr));
