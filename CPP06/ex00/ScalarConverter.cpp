@@ -76,7 +76,7 @@ void convertChar(const std::string &str)
 	if (std::isprint(charValue)) {
 		std::cout << "Char: " <<"'"<<charValue<<"'"<< std::endl;
 	} else {
-		std::cout << "Char: " << "Non printable" << std::endl;
+		std::cout << "Char: " << "Non displayable" << std::endl;
 	}
 	std::cout << "Int: " << static_cast<int>(charValue) << std::endl;
 	std::cout << "Float: " << static_cast<float>(charValue) << floatSuffix(static_cast<float>(charValue)) <<std::endl;
@@ -89,7 +89,7 @@ void convertInt(const std::string &str)
 	if (std::isprint(static_cast<int>(intValue))) {
 		std::cout << "Char: " << "'"<<static_cast<char>(intValue)<<"'"<< std::endl;
 	} else {
-		std::cout << "Char: " << "Non printable" << std::endl;
+		std::cout << "Char: " << "Non displayable" << std::endl;
 	}
 	std::cout << "Int: " << intValue << std::endl;
 	std::cout << "Float: " <<static_cast<float>(intValue) << floatSuffix(static_cast<float>(intValue)) <<std::endl;
@@ -115,7 +115,7 @@ void convertFloat(const std::string &str)
 			if (std::isprint(static_cast<int>(floatValue))) {
 				std::cout << "Char: " <<"'" <<static_cast<char>(floatValue)<<"'" << std::endl;
 			} else {
-				std::cout << "Char: " << "Non printable" << std::endl;
+				std::cout << "Char: " << "Non displayable" << std::endl;
 			}
 			std::cout << "Int: " << static_cast<int>(floatValue) << std::endl;
 		}
@@ -159,7 +159,7 @@ void convertDouble(const std::string &str)
 			if (std::isprint(static_cast<int>(doubleValue))) {
 				std::cout << "Char: " << "'"<< static_cast<char>(doubleValue)<<"'"<< std::endl;
 			} else {
-				std::cout << "Char: " << "Non printable" << std::endl;
+				std::cout << "Char: " << "Non displayable" << std::endl;
 			}
 			std::cout << "Int: " << static_cast<int>(doubleValue) << std::endl;
 		}
