@@ -3,7 +3,19 @@
 #include <limits>
 #include <set>
 #include <iostream>
+
 Span::Span(unsigned int N) : _s(), _N(N) {};
+Span::Span(): _s(), _N(0) {};
+Span::Span(const Span &cpy) : _s(cpy._s), _N(cpy._N) {};
+Span & Span::operator=(const Span &src) {
+	if (this != &src)
+	{
+		_s = src._s;
+		_N = src._N;
+	}
+	return (*this);
+}
+Span::~Span() {};
 unsigned int Span::shortestSpan() const {
 
 	if (_s.size()< 2)
