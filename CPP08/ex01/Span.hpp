@@ -11,6 +11,17 @@ class Span {
 		std::multiset<int> _s;
 		unsigned int _N;
 	public:
+		Span(): _s(), _N(0) {};
+		Span(const Span &cpy) : _s(cpy._s), _N(cpy._N) {};
+		Span & operator=(const Span &src) {
+			if (this != &src)
+			{
+				_s = src._s;
+				_N = src._N;
+			}
+			return (*this);
+		}
+		~Span() {};
 		Span(unsigned int N);
 		void addNumber(int value);
 		class SetFullException : public std::exception {
