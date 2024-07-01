@@ -4,10 +4,11 @@
 #include <set>
 #include <iterator>
 #include <stdexcept>
+#include <iostream>
 class Span {
 
 	private:
-		std::set<int> _s;
+		std::multiset<int> _s;
 		unsigned int _N;
 	public:
 		Span(unsigned int N);
@@ -22,15 +23,12 @@ class Span {
 		};
 		unsigned int shortestSpan() const;
 		unsigned int longestSpan() const;
-		template <typename Container>
-		void addNumberBulk(typename Container::iterator begin, typename Container::iterator end)
+		template <typename Iterator>
+		void addNumber(Iterator begin, Iterator end)
 		{
-			typename Container::iterator cur = begin;
-			while (cur != end)
-			{
-				addNumber(*cur);
-				cur++;
-			}
+			if (std::distance(begin, end) + _s.size() > _N)
+				throw SetFullException();
+			_s.insert(begin, end);
 		};
 		void print() const;
 };

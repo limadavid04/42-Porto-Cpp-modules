@@ -3,19 +3,22 @@
 #include <vector>
 
 int main() {
+    //add num whitout calling multiple addnum functions
 	std::vector<int> vec;
 	vec.push_back(0);
 	vec.push_back(30);
 	vec.push_back(40);
 	vec.push_back(70);
+    // vec.push_back(0);
     try {
-        Span sp(30); // Initialize Span with a maximum of 5 elements
+        Span sp(20); // Initialize Span with a maximum of 5 elements
+
         sp.addNumber(6);
         sp.addNumber(3);
         sp.addNumber(17);
         sp.addNumber(9);
         sp.addNumber(11);
-		sp.addNumberBulk< std::vector<int> >(vec.begin(), vec.end());
+		sp.addNumber(vec.begin(), vec.end());
         std::cout << "Shortest Span: " << sp.shortestSpan() << std::endl;
         std::cout << "Longest Span: " << sp.longestSpan() << std::endl;
 		sp.print();

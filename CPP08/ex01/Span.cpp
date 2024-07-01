@@ -8,8 +8,8 @@ unsigned int Span::shortestSpan() const {
 
 	if (_s.size()< 2)
 		throw Span::SetTooSmallException();
-	std::set<int>::iterator it = _s.begin();
-	std::set<int>::iterator it_2 = ++_s.begin();
+	std::multiset<int>::iterator it = _s.begin();
+	std::multiset<int>::iterator it_2 = ++_s.begin();
 
 	unsigned int min_span = std::numeric_limits<unsigned int>::max();
 	unsigned int cur_span;
@@ -26,8 +26,8 @@ unsigned int Span::shortestSpan() const {
 unsigned int Span::longestSpan() const {
 	if (_s.size() < 2)
 		throw Span::SetTooSmallException();
-	std::set<int>::iterator it = _s.begin();
-	std::set<int>::iterator it_2 = --_s.end();
+	std::multiset<int>::iterator it = _s.begin();
+	std::multiset<int>::iterator it_2 = --_s.end();
 	return (*it_2 - *it);
 }
 const char* Span::SetFullException::what() const throw() {
@@ -42,7 +42,7 @@ void Span::addNumber(int value) {
 	_s.insert(value);
 }
 void Span::print() const {
-	std::set<int>::iterator it = _s.begin();
+	std::multiset<int>::iterator it = _s.begin();
 	while (it !=_s.end())
 	{
 		std::cout << *it << std::endl;
