@@ -1,6 +1,7 @@
 #include "Array.hpp"
 #include <iostream>
 #include <cstdlib>
+
 #define VALUE 5
 
 void	value_tests()
