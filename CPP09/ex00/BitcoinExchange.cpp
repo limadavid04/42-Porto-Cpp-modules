@@ -146,12 +146,13 @@ time_t BitcoinExchange::get_closest_date(time_t date)
 
 void BitcoinExchange::display_conversion(time_t date, float value)
 {
-	// try {
 		time_t key = get_closest_date(date);
-		std::cout << timeToString(key) << " >= " << value << " = " << (value * _exchange_rates_db.at(key)) << std::endl;
-	// } catch(std::exception &e) {
-	// 	std::cerr << e.what() << std::endl;
-	// }
+		// std::cout << "----------------------" << std::endl ;
+		// std::cout <<"date = "<< timeToString(date) << std::endl;
+		// std::cout <<"closest date = "<< timeToString(key) << std::endl;
+		// std::cout << "----------------------" << std::endl << std::endl;
+
+		std::cout << timeToString(date) << " >= " << value << " = " << (value * _exchange_rates_db.at(key)) << std::endl;
 }
 
 void BitcoinExchange::convert(std::string &file) {
