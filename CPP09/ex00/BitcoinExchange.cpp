@@ -28,9 +28,11 @@ bool isValidDate(int year, int month, int day)
 	const int daysInMonth[] = {31, 28 + isLeapYear(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	return day <= daysInMonth[month - 1];
 }
+
 static inline void rtrim(std::string &s) {
 	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
 }
+
 std::string timeToString(time_t time) {
     std::tm* tm = std::localtime(&time); // Convert time_t to tm struct
     char buffer[11]; // Buffer to hold the formatted string. Format is YYYY-MM-DD\0, so 11 characters are needed.
@@ -165,6 +167,8 @@ void BitcoinExchange::convert(std::string &file) {
 	std::string line;
 	float value = 0;
 
+	if (_exchange_rates_db.empty())
+		throw std::runtime_error("Error: Data Base is empty.");
 	if (!csv_file.is_open())
 		throw std::runtime_error("Error: could not open file.");
 	//check first line;
