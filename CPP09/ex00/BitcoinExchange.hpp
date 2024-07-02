@@ -17,22 +17,18 @@ class BitcoinExchange {
 		float parse_exchange_rate(std::string &rate_str);
 		void parse_db();
 		void convert(std::string &file);
-		class InvalidDateException: public std::exception {
-			private:
-					std::string _message;
-			public:
-				InvalidDateException(const std::string& msg);
-				virtual const char* what() const throw();
-				virtual ~InvalidDateException() throw() {} // Add throw() to match std::exception
+		// class InvalidDateException: public std::exception {
+		// 	private:
+		// 			std::string _message;
+		// 	public:
+		// 		InvalidDateException(const std::string& msg);
+		// 		virtual const char* what() const throw();
+		// 		virtual ~InvalidDateException() throw() {} // Add throw() to match std::exception
 
-		};
-		class LineSyntaxErrorException : public std::exception {
-			private:
-					std::string _message;
+		// };
+		class InvalidInputException : public std::exception {
 			public:
-				LineSyntaxErrorException(const std::string& msg);
 				virtual const char* what() const throw();
-				virtual ~LineSyntaxErrorException() throw() {}
 		};
 		void print_db();
 

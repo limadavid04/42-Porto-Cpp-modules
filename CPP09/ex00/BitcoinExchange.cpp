@@ -47,6 +47,22 @@ void BitcoinExchange::print_db() {
 	}
 }
 
+float parse_value(std::string &value_str) {
+	float value;
+	rtrim(value_str);
+	if (value_str.empty())
+		throw BitcoinExchange::InvalidInputException();
+	std::istringstream rate_ss(value_str);
+	if (!(rate_ss >> value) || !rate_ss.eof() )
+		throw BitcoinExchange::InvalidInputException();
+	if (value < 0)
+		throw std::runtime_error("Error: not a positive number.");
+	if (value > 1000)
+		throw std::runtime_error("Error: too large a number.");
+
+	return value;
+}
+
 time_t BitcoinExchange::parse_date(std::string &date_str)
 {
 	rtrim(date_str);
@@ -56,23 +72,24 @@ time_t BitcoinExchange::parse_date(std::string &date_str)
 	std::tm tm = {};
 	date_ss >> year >> dash1 >> month >>dash2 >>day;
 	if (!date_ss.eof()|| date_ss.fail() || dash1 != '-' || dash2 != '-')
-		throw BitcoinExchange::LineSyntaxErrorException("found while parsing date");
+		throw BitcoinExchange::InvalidInputException();
 	if (!isValidDate(year, month, day))
-		throw BitcoinExchange::InvalidDateException(date_str);
+		throw BitcoinExchange::InvalidInputException();
 	tm.tm_year = year - 1900;
 	tm.tm_mon = month - 1;
 	tm.tm_mday = day;
 	time_t myTimeT = mktime(&tm);
-	if (myTimeT == (time_t)-1)
-		throw BitcoinExchange::InvalidDateException("Failed to convert tm to time_t.");
+	// if (myTimeT == (time_t)-1)
+	// 	throw BitcoinExchange::InvalidDateException("Failed to convert tm to time_t.");
 	return myTimeT;
 }
 
 float BitcoinExchange::parse_exchange_rate(std::string &rate_str)
 {
 	float rate;
+	rtrim(rate_str);
 	if (rate_str.empty())
-		throw BitcoinExchange::LineSyntaxErrorException("No comma was found in the line.");
+		throw BitcoinExchange::InvalidInputException();
 	std::istringstream rate_ss(rate_str);
 	if (!(rate_ss >> rate) || !rate_ss.eof() || rate < 0 || rate > std::numeric_limits<float>::max())
 		throw std::runtime_error("Invalid exchange rate");
@@ -86,7 +103,7 @@ void BitcoinExchange::parse_db()
 	float rate = 0;
 
 	if (!csv_file.is_open())
-		throw std::runtime_error("Failed to open file: " + _data_base_path);
+		throw std::runtime_error("Error: could not open file.");
 	//skip title
 	while (std::getline(csv_file, line))
 	{
@@ -109,20 +126,13 @@ void BitcoinExchange::parse_db()
 			bool insertion_status = (_exchange_rates_db.insert(std::make_pair(date, rate))).second;
 			if (!insertion_status)
 				throw std::runtime_error("Insertion into DB failed: key already exists.");
+		} catch (BitcoinExchange::InvalidInputException & e) {
+			std::cerr << e.what() <<" => "<< line <<std::endl;
 		} catch (std::exception &e) {
 			std::cerr << e.what() << std::endl;
 		}
 	}
 	csv_file.close();
-}
-float parse_value(std::string &value_str) {
-	float value;
-	if (value_str.empty())
-		throw BitcoinExchange::LineSyntaxErrorException("No '|' separator was found in the line.");
-	std::istringstream rate_ss(value_str);
-	if (!(rate_ss >> value) || !rate_ss.eof() || value < 0 || value > 1000)
-		throw std::runtime_error("Invalid value");
-	return value;
 }
 
 time_t BitcoinExchange::get_closest_date(time_t date)
@@ -147,11 +157,6 @@ time_t BitcoinExchange::get_closest_date(time_t date)
 void BitcoinExchange::display_conversion(time_t date, float value)
 {
 		time_t key = get_closest_date(date);
-		// std::cout << "----------------------" << std::endl ;
-		// std::cout <<"date = "<< timeToString(date) << std::endl;
-		// std::cout <<"closest date = "<< timeToString(key) << std::endl;
-		// std::cout << "----------------------" << std::endl << std::endl;
-
 		std::cout << timeToString(date) << " >= " << value << " = " << (value * _exchange_rates_db.at(key)) << std::endl;
 }
 
@@ -161,8 +166,13 @@ void BitcoinExchange::convert(std::string &file) {
 	float value = 0;
 
 	if (!csv_file.is_open())
-		throw std::runtime_error("Failed to open file: " + file);
+		throw std::runtime_error("Error: could not open file.");
 	//check first line;
+	while (std::getline(csv_file, line))
+	{
+		if (!line.empty())
+			break;
+	}
 	while (std::getline(csv_file, line))
 	{
 		if (line.empty())
@@ -176,22 +186,28 @@ void BitcoinExchange::convert(std::string &file) {
 			date = parse_date(date_str);
 			value = parse_value(value_str);
 			display_conversion(date, value);
+		} catch (BitcoinExchange::InvalidInputException & e) {
+			std::cerr << e.what() <<" => "<< line <<std::endl;
 		} catch (std::exception &e) {
 			std::cerr << e.what() << std::endl;
 		}
 	}
 	csv_file.close();
 }
-
-BitcoinExchange::InvalidDateException::InvalidDateException(const std::string& msg) : _message("Invalid Date: " + msg) {}
-
-const char* BitcoinExchange::InvalidDateException::what() const throw()
+const char* BitcoinExchange::InvalidInputException::what() const throw()
 {
-	return _message.c_str();
+	return ("Error: bad input");
 }
 
-BitcoinExchange::LineSyntaxErrorException::LineSyntaxErrorException(const std::string& msg) : _message("Invalid Line syntax: " + msg) {}
+// BitcoinExchange::InvalidDateException::InvalidDateException(const std::string& msg) : _message("Invalid Date: " + msg) {}
 
-const char* BitcoinExchange::LineSyntaxErrorException::what() const throw() {
-	return _message.c_str();
-}
+// const char* BitcoinExchange::InvalidDateException::what() const throw()
+// {
+// 	return _message.c_str();
+// }
+
+// BitcoinExchange::LineSyntaxErrorException::LineSyntaxErrorException(const std::string& msg) : _message("Invalid Line syntax: " + msg) {}
+
+// const char* BitcoinExchange::LineSyntaxErrorException::what() const throw() {
+// 	return _message.c_str();
+// }
