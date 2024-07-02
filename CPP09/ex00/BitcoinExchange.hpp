@@ -11,6 +11,7 @@ class BitcoinExchange {
 	public:
 		BitcoinExchange(std::string &file);
 		static time_t parse_date(std::string date_str);
+		float parse_exchange_rate(std::string rate_str);
 		void parse_db(std::string &file);
 		class InvalidDateException: public std::exception {
 			private:

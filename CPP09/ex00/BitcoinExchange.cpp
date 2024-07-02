@@ -7,9 +7,15 @@
 #include <map>
 #include <stdexcept>
 #include <iomanip>
+#include <limits>
 
 BitcoinExchange::BitcoinExchange(std::string &file) {
-	parse_db(file);
+	try {
+		parse_db(file);
+	} catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 bool isLeapYear(int year)
 {
@@ -29,6 +35,10 @@ std::string timeToString(time_t time) {
     return std::string(buffer); // Convert buffer to std::string and return
 }
 void BitcoinExchange::print_db() {
+	if (_exchange_rates_db.empty()) {
+		std::cout << "The exchange rates database is empty, please try passing a Database first." << std::endl;
+		return ;
+	}
 	for (std::map<time_t, float>::const_iterator it = _exchange_rates_db.begin(); it != _exchange_rates_db.end(); ++it) {
 		std::cout << timeToString(it->first) << "," << it->second << '\n';
 	}
@@ -54,34 +64,47 @@ time_t BitcoinExchange::parse_date(std::string date_str)
 	return myTimeT;
 }
 
+float BitcoinExchange::parse_exchange_rate(std::string rate_str)
+{
+	float rate;
+	if (rate_str.empty())
+		throw BitcoinExchange::LineSyntaxErrorException("No comma was found in the line.");
+	std::istringstream rate_ss(rate_str);
+	if (!(rate_ss >> rate) || !rate_ss.eof() || rate < 0 || rate > std::numeric_limits<float>::max())
+		throw std::runtime_error("Invalid exchange rate");
+	return rate;
+}
+
 void BitcoinExchange::parse_db(std::string &file)
 {
 	std::ifstream csv_file(file.c_str());
 	std::string line;
-
 	float rate = 0;
+
+	if (!csv_file.is_open())
+		throw std::runtime_error("Failed to open file: " + file);
+	//skip title
 	while (std::getline(csv_file, line))
 	{
+		if (!line.empty())
+			break;
+	}
+	while (std::getline(csv_file, line))
+	{
+		if (line.empty())
+			continue ;
 		time_t date;
 		std::istringstream ss(line);
 		std::string date_str, rate_str;
 		std::getline(ss, date_str, ',');
 		std::getline(ss, rate_str);
-		if (rate_str.empty())
-		{
-			std::cerr << "No comma was found in the line." <<std::endl;
-			continue;
-		}
-		std::istringstream rate_ss(rate_str);
 
 		try {
 			date = parse_date(date_str);
-			rate_ss >> rate;
+			rate = parse_exchange_rate(rate_str);
 			bool insertion_status = (_exchange_rates_db.insert(std::make_pair(date, rate))).second;
 			if (!insertion_status)
-			{
-				std::cerr << "Insertion failed, key already exists: " << date << std::endl;
-			}
+				throw std::runtime_error("Insertion into DB failed: key already exists.");
 		} catch (std::exception &e) {
 			std::cerr << e.what() << std::endl;
 		}
