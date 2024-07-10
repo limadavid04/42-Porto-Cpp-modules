@@ -12,6 +12,5 @@ class PmergeME {
 		PmergeME();
 		void parse_input(int argc, char** argv);
 		void merge_insert_vec();
-
 };
 #endif
