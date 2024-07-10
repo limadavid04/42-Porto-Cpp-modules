@@ -5,6 +5,20 @@
 
 PmergeME::PmergeME() {};
 
+template <typename Iterator, typename T>
+Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& value) {
+    Iterator low = begin;
+    Iterator high = end;
+    while (low < high) {
+        Iterator mid = low + (high - low) / 2;
+        if (*mid < value) {
+            low = mid + 1;
+        } else {
+            high = mid;
+        }
+    }
+    return low;
+}
 
 
 void print_pairs(const std::vector<std::pair<int, int> >& pairs) {
@@ -103,7 +117,7 @@ void get_Jacobstal_insertion_list(const std::vector<std::pair<int, size_t> > &pe
 	unsigned long cur_jacobstal = 1;
 	unsigned long prev_temp;
 	unsigned long cur_b;
-	std::cout <<"pending lst size = " <<pending_lst_size << std::endl;
+	// std::cout <<"pending lst size = " <<pending_lst_size << std::endl;
 	while (cur_jacobstal <= static_cast<unsigned long>(pending_lst_size))
 	{
 		prev_temp = prev_jacobstal;
@@ -111,19 +125,19 @@ void get_Jacobstal_insertion_list(const std::vector<std::pair<int, size_t> > &pe
 		cur_jacobstal = getNextJacobstal(cur_jacobstal, prev_temp);
 		cur_b = cur_jacobstal ;
 		// std::cout << "cur_b = " << cur_b << std::endl;
-		std::cout << "prev jacobstal = " << prev_jacobstal << std::endl;
-		std::cout << "cur jacobstal = " << cur_jacobstal << std::endl;
-		std::cout << "pending size to compare = " <<static_cast<unsigned long>(pending_lst_size) << std::endl;
+		// std::cout << "prev jacobstal = " << prev_jacobstal << std::endl;
+		// std::cout << "cur jacobstal = " << cur_jacobstal << std::endl;
+		// std::cout << "pending size to compare = " <<static_cast<unsigned long>(pending_lst_size) << std::endl;
 		while (cur_b > static_cast<unsigned long>(pending_lst_size))
 		{
-			std::cout << "decrementing b , b before = "<<cur_b << std::endl;
+			// std::cout << "decrementing b , b before = "<<cur_b << std::endl;
 			cur_b--;
-			std::cout << "b after = " << cur_b << std::endl;
+			// std::cout << "b after = " << cur_b << std::endl;
 		}
 
 		while (cur_b > prev_jacobstal)
 		{
-			std::cout << "cur_b = " << cur_b << std::endl;
+			// std::cout << "cur_b = " << cur_b << std::endl;
 			insert_list.push_back(pending.at(cur_b - 2));
 			cur_b--;
 		}
@@ -157,6 +171,22 @@ void print_vectors(const std::vector<std::pair<int, int> >& pairs, const std::ve
     }
     std::cout << std::endl;
 }
+
+void insert_list_in_main(std::vector<std::pair<int , size_t> > &insert_list, std::vector<int> &main, int vec_size)
+{
+	std::vector<int>::iterator pos;
+	for (std::vector<std::pair<int, size_t> >::iterator it = insert_list.begin(); it != --insert_list.end(); it++)
+	{
+		// std::cout << "comparing [ "<<it->first <<" ] until but not including END = " << *(main.begin() + it->second) << std::endl;
+		pos = binary_search_insert_position(main.begin(), (main.end() - (it->second -1)), it->first);
+		main.insert(pos, it->first);
+	}
+	if (vec_size % 2 == 0)
+	{
+		pos = binary_search_insert_position(main.begin(), (main.end() - ((--insert_list.end())->second -1)), (--insert_list.end())->first);
+		main.insert(pos, it->first);
+	}
+}
 void PmergeME::merge_insert_vec()
 {
 	//compare with size of main - index of b -1;
@@ -175,6 +205,8 @@ void PmergeME::merge_insert_vec()
 	print_vectors(pairs, main, pending, _vec.size());
 	get_Jacobstal_insertion_list(pending, insert_list , ( _vec.size() / 2) + (_vec.size() % 2));
 	print_insert_list(insert_list);
+	insert_list_in_main(insert_list, main, _vec.size());
+	print_main(main);
 }
 
 
