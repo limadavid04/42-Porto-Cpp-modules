@@ -6,14 +6,13 @@
 PmergeME::PmergeME() {};
 
 template <typename Iterator, typename T>
-Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& value, int &comp) {
+Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& value) {
     Iterator low = begin;
     Iterator high = end;
 
-	std::cout << "insertion distance = " << std::distance(begin, end) << std::endl;
-
+	// std::cout << "insertion distance = " << std::distance(begin, end) << std::endl;
     while (low < high) {
-		comp++;
+		// comp++;
         Iterator mid = low + (high - low) / 2;
         if (*mid < value) {
             low = mid + 1;
@@ -28,19 +27,10 @@ template<typename T>
 bool isSorted(const std::vector<T>& vec) {
     for (size_t i = 0; i < vec.size() - 1; ++i) {
         if (vec[i] > vec[i + 1]) {
-            return false; // Found two elements in wrong order
+            return false;
         }
     }
-    return true; // No elements in wrong order found, vector is sorted
-}
-
-void print_pairs(const std::vector<std::pair<int, int> >& pairs) {
-    std::vector<std::pair<int, int> >::const_iterator it_pairs;
-    std::cout << "Pairs:" << std::endl;
-    for (it_pairs = pairs.begin(); it_pairs != pairs.end(); ++it_pairs) {
-        std::cout << "(" << it_pairs->first << ", " << it_pairs->second << ") ";
-    }
-    std::cout << std::endl;
+    return true;
 }
 
 void print_main(const std::vector<int>& main) {
@@ -52,22 +42,6 @@ void print_main(const std::vector<int>& main) {
     std::cout << std::endl;
 }
 
-void print_pending(const std::vector<std::pair<int, size_t> >& pending) {
-    std::vector<std::pair<int, size_t> >::const_iterator it_pending;
-    std::cout << "Pending:" << std::endl;
-    for (it_pending = pending.begin(); it_pending != pending.end(); ++it_pending) {
-        std::cout << "(" << it_pending->first << ", b" << it_pending->second << ") ";
-    }
-    std::cout << std::endl;
-}
-void print_insert_list(const std::vector<std::pair<int, size_t> >& insert_lst) {
-    std::vector<std::pair<int, size_t> >::const_iterator it_insert_lst;
-    std::cout << "insert_lst:" << std::endl;
-    for (it_insert_lst = insert_lst.begin(); it_insert_lst != insert_lst.end(); ++it_insert_lst) {
-        std::cout << "(" << it_insert_lst->first << ", b" << it_insert_lst->second << ") ";
-    }
-    std::cout << std::endl;
-}
 void PmergeME::parse_input(int argc, char **argv) {
 
 	int number;
@@ -146,66 +120,20 @@ void get_Jacobstal_insertion_list(const std::vector<std::pair<int, size_t> > &pe
 	}
 }
 
-void print_vectors(const std::vector<std::pair<int, int> >& pairs, const std::vector<int>& main, const std::vector<std::pair<int, size_t> >& pending, int vec_size) {
-    std::vector<std::pair<int, int> >::const_iterator it_pairs;
-    std::vector<int>::const_iterator it_main;
-    std::vector<std::pair<int, size_t> >::const_iterator it_pending;
-
-    std::cout << "Pairs:" << std::endl;
-    for (it_pairs = pairs.begin(); it_pairs != --pairs.end(); ++it_pairs) {
-		std::cout << "(" <<it_pairs->first << ", " << it_pairs->second << ") ";
-    }
-	if (vec_size % 2 == 0)
-		std::cout << "(" << (--pairs.end())->first << ", " << (--pairs.end())->second << ") ";
-	else
-		std::cout << "(" << (--pairs.end())->first << ", sizeOf pending list = " << (--pairs.end())->second << ") ";
-    std::cout << std::endl;
-
-    std::cout << "Main:" << std::endl;
-    for (it_main = main.begin(); it_main != main.end(); ++it_main) {
-        std::cout << *it_main << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "Pending:" << std::endl;
-    for (it_pending = pending.begin(); it_pending != pending.end(); ++it_pending) {
-        std::cout << "(" << it_pending->first << ", b" << it_pending->second << ") ";
-    }
-    std::cout << std::endl;
-}
 
 void insert_list_in_main(std::vector<std::pair<int , size_t> > &insert_list, std::vector<int> &main, size_t a_size)
 {
 	std::vector<int>::iterator pos;
-	int comp = 0;
 	for (std::vector<std::pair<int, size_t> >::iterator it = insert_list.begin(); it != insert_list.end(); it++)
 	{
-		// std::cout << "main.size = " <<main.size() << std::endl;
 		if (it->second >= a_size)
-			pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
+			pos = binary_search_insert_position(main.begin(), main.end(), it->first);
 		else
-			pos = binary_search_insert_position(main.begin(), main.end() - (a_size - it->second+1), it->first, comp);
-			// pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
+			pos = binary_search_insert_position(main.begin(), main.end() - (a_size - it->second+1), it->first);
 		main.insert(pos, it->first);
 	}
-		std::cout << "comp = " << comp << std::endl;
 }
-void insert_list_in_main_2(std::vector<std::pair<int , size_t> > &insert_list, std::vector<int> &main, size_t a_size)
-{
-	std::vector<int>::iterator pos;
-	int comp = 0;
-	for (std::vector<std::pair<int, size_t> >::iterator it = insert_list.begin(); it != insert_list.end(); it++)
-	{
-		// std::cout << "main.size = " <<main.size() << std::endl;
-		if (it->second >= a_size)
-			pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
-		else
-			pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
-			// pos = binary_search_insert_position(main.begin(), main.end() - (a_size - it->second - 1), it->first, comp);
-		main.insert(pos, it->first);
-	}
-		std::cout << "comp 2 = " << comp << std::endl;
-}
+
 void PmergeME::merge_insert_vec()
 {
 	//compare with size of main - index of b -1;
@@ -225,18 +153,11 @@ void PmergeME::merge_insert_vec()
 	fill_vectors(main, pending, pairs, _vec.size());
 	get_Jacobstal_insertion_list(pending, insert_list , ( _vec.size() / 2) + (_vec.size() % 2));
 	insert_list_in_main(insert_list, main, _vec.size()/2);
-	std::clock_t end = std::clock(); // Capture end time
+	std::clock_t end = std::clock();
 	double durationInMicroseconds = static_cast<double>(end - start) * 1000000.0 / CLOCKS_PER_SEC; // Calculate duration in microseconds
 	print_main(main);
 	std::cout << "Sorting took " << durationInMicroseconds << " microseconds." << std::endl;
-	// print_vectors(pairs, main, pending, _vec.size());
-	// print_insert_list(insert_list);
-	// std::vector<int> main2 = main;
 	std::cout << (isSorted(main) ? "SORTED!!" : "WRONGGGGGGGG!") << std::endl;
-	// insert_list_in_main_2(insert_list, main2, _vec.size()/2);
-	// std::cout << (isSorted(main2) ? "SORTED!!" : "WRONGGGGGGGG!")<< std::endl;
-
-	// print_main(main2);
 }
 
 
