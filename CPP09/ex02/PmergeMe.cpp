@@ -1,6 +1,7 @@
 #include "PmergeMe.hpp"
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 
 PmergeME::PmergeME() {};
 
@@ -29,6 +30,14 @@ void print_pending(const std::vector<std::pair<int, size_t> >& pending) {
     std::cout << "Pending:" << std::endl;
     for (it_pending = pending.begin(); it_pending != pending.end(); ++it_pending) {
         std::cout << "(" << it_pending->first << ", b" << it_pending->second << ") ";
+    }
+    std::cout << std::endl;
+}
+void print_insert_list(const std::vector<std::pair<int, size_t> >& insert_lst) {
+    std::vector<std::pair<int, size_t> >::const_iterator it_insert_lst;
+    std::cout << "insert_lst:" << std::endl;
+    for (it_insert_lst = insert_lst.begin(); it_insert_lst != insert_lst.end(); ++it_insert_lst) {
+        std::cout << "(" << it_insert_lst->first << ", b" << it_insert_lst->second << ") ";
     }
     std::cout << std::endl;
 }
@@ -85,11 +94,41 @@ bool compare(std::pair<int, int> &a, std::pair<int, int> &b)
 {
 	return a.second < b.second;
 }
-// void get_Jacobian_insertion_list(std::vector<std::pair<int, std::vector<int>::iterator> > &pending)
-// {
-// 	unsigned long jacobian;
-// 	while
-// }
+unsigned long getNextJacobstal(unsigned long prev, unsigned long prevPrev) {
+	return prev + 2 * prevPrev;
+}
+void get_Jacobstal_insertion_list(const std::vector<std::pair<int, size_t> > &pending, std::vector<std::pair<int , size_t> > &insert_list , int pending_lst_size)
+{
+	unsigned long prev_jacobstal = 1;
+	unsigned long cur_jacobstal = 1;
+	unsigned long prev_temp;
+	unsigned long cur_b;
+	std::cout <<"pending lst size = " <<pending_lst_size << std::endl;
+	while (cur_jacobstal <= static_cast<unsigned long>(pending_lst_size))
+	{
+		prev_temp = prev_jacobstal;
+		prev_jacobstal = cur_jacobstal;
+		cur_jacobstal = getNextJacobstal(cur_jacobstal, prev_temp);
+		cur_b = cur_jacobstal ;
+		// std::cout << "cur_b = " << cur_b << std::endl;
+		std::cout << "prev jacobstal = " << prev_jacobstal << std::endl;
+		std::cout << "cur jacobstal = " << cur_jacobstal << std::endl;
+		std::cout << "pending size to compare = " <<static_cast<unsigned long>(pending_lst_size) << std::endl;
+		while (cur_b > static_cast<unsigned long>(pending_lst_size))
+		{
+			std::cout << "decrementing b , b before = "<<cur_b << std::endl;
+			cur_b--;
+			std::cout << "b after = " << cur_b << std::endl;
+		}
+
+		while (cur_b > prev_jacobstal)
+		{
+			std::cout << "cur_b = " << cur_b << std::endl;
+			insert_list.push_back(pending.at(cur_b - 2));
+			cur_b--;
+		}
+	}
+}
 
 void print_vectors(const std::vector<std::pair<int, int> >& pairs, const std::vector<int>& main, const std::vector<std::pair<int, size_t> >& pending, int vec_size) {
     std::vector<std::pair<int, int> >::const_iterator it_pairs;
@@ -124,6 +163,7 @@ void PmergeME::merge_insert_vec()
 	std::vector<std::pair<int, int> >pairs;
 	std::vector<int> main;
 	std::vector<std::pair<int, size_t> > pending;
+	std::vector<std::pair<int , size_t> > insert_list;
 	if (_vec.size() == 1)
 	{
 		std::cout << _vec[0] << std::endl;
@@ -133,6 +173,8 @@ void PmergeME::merge_insert_vec()
 	std::sort(pairs.begin(), (_vec.size() % 2 == 0 ? pairs.end(): --pairs.end()), compare);
 	fill_vectors(main, pending, pairs, _vec.size());
 	print_vectors(pairs, main, pending, _vec.size());
+	get_Jacobstal_insertion_list(pending, insert_list , ( _vec.size() / 2) + (_vec.size() % 2));
+	print_insert_list(insert_list);
 }
 
 
