@@ -6,13 +6,13 @@
 PmergeME::PmergeME() {};
 
 template <typename Iterator, typename T>
-Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& value) {
+Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& value, int &comp) {
     Iterator low = begin;
     Iterator high = end;
-	std::cout << "insertion distance = " << std::distance(begin, end) << std::endl;
-	int comparissons = 0;
+	// std::cout << "insertion distance = " << std::distance(begin, end) << std::endl;
+
     while (low < high) {
-		comparissons++;
+		comp++;
         Iterator mid = low + (high - low) / 2;
         if (*mid < value) {
             low = mid + 1;
@@ -20,10 +20,18 @@ Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& va
             high = mid;
         }
     }
-	std::cout << "comparissons = " << comparissons << std::endl << std::endl;
     return low;
 }
 
+template<typename T>
+bool isSorted(const std::vector<T>& vec) {
+    for (size_t i = 0; i < vec.size() - 1; ++i) {
+        if (vec[i] > vec[i + 1]) {
+            return false; // Found two elements in wrong order
+        }
+    }
+    return true; // No elements in wrong order found, vector is sorted
+}
 
 void print_pairs(const std::vector<std::pair<int, int> >& pairs) {
     std::vector<std::pair<int, int> >::const_iterator it_pairs;
@@ -168,16 +176,34 @@ void print_vectors(const std::vector<std::pair<int, int> >& pairs, const std::ve
 void insert_list_in_main(std::vector<std::pair<int , size_t> > &insert_list, std::vector<int> &main, size_t a_size)
 {
 	std::vector<int>::iterator pos;
-
+	int comp = 0;
 	for (std::vector<std::pair<int, size_t> >::iterator it = insert_list.begin(); it != insert_list.end(); it++)
 	{
 		// std::cout << "main.size = " <<main.size() << std::endl;
 		if (it->second >= a_size)
-			pos = binary_search_insert_position(main.begin(), main.end(), it->first);
+			pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
 		else
-			pos = binary_search_insert_position(main.begin(), main.end() - (a_size - it->second - 1), it->first);
+			pos = binary_search_insert_position(main.begin(), main.end() - (a_size - it->second - 1), it->first, comp);
+			// pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
 		main.insert(pos, it->first);
 	}
+		std::cout << "comp = " << comp << std::endl;
+}
+void insert_list_in_main_2(std::vector<std::pair<int , size_t> > &insert_list, std::vector<int> &main, size_t a_size)
+{
+	std::vector<int>::iterator pos;
+	int comp = 0;
+	for (std::vector<std::pair<int, size_t> >::iterator it = insert_list.begin(); it != insert_list.end(); it++)
+	{
+		// std::cout << "main.size = " <<main.size() << std::endl;
+		if (it->second >= a_size)
+			pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
+		else
+			pos = binary_search_insert_position(main.begin(), main.end(), it->first, comp);
+			// pos = binary_search_insert_position(main.begin(), main.end() - (a_size - it->second - 1), it->first, comp);
+		main.insert(pos, it->first);
+	}
+		std::cout << "comp 2 = " << comp << std::endl;
 }
 void PmergeME::merge_insert_vec()
 {
@@ -197,8 +223,14 @@ void PmergeME::merge_insert_vec()
 	print_vectors(pairs, main, pending, _vec.size());
 	get_Jacobstal_insertion_list(pending, insert_list , ( _vec.size() / 2) + (_vec.size() % 2));
 	print_insert_list(insert_list);
+	std::vector<int> main2 = main;
 	insert_list_in_main(insert_list, main, _vec.size()/2);
-	print_main(main);
+	std::cout << (isSorted(main) ? "SORTED!!" : "WRONGGGGGGGG!") << std::endl;
+	// print_main(main);
+	insert_list_in_main_2(insert_list, main2, _vec.size()/2);
+	std::cout << (isSorted(main2) ? "SORTED!!" : "WRONGGGGGGGG!")<< std::endl;
+	
+	// print_main(main2);
 }
 
 
