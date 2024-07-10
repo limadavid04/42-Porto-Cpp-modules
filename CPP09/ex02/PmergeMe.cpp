@@ -9,7 +9,10 @@ template <typename Iterator, typename T>
 Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& value) {
     Iterator low = begin;
     Iterator high = end;
+	std::cout << "insertion distance = " << std::distance(begin, end) << std::endl;
+	int comparissons = 0;
     while (low < high) {
+		comparissons++;
         Iterator mid = low + (high - low) / 2;
         if (*mid < value) {
             low = mid + 1;
@@ -17,6 +20,7 @@ Iterator binary_search_insert_position(Iterator begin, Iterator end, const T& va
             high = mid;
         }
     }
+	std::cout << "comparissons = " << comparissons << std::endl << std::endl;
     return low;
 }
 
@@ -91,7 +95,6 @@ void make_pairs(std::vector<int> vec, std::vector<std::pair<int, int > > &pairs)
 
 void fill_vectors( std::vector<int> &main, std::vector<std::pair<int, size_t > >&pending, std::vector<std::pair<int, int> > &pairs, int vec_size)
 {
-
 	std::vector<std::pair<int, int> >::iterator final_pos =  pairs.end() - (vec_size % 2);
 	for (std::vector<std::pair<int, int> >::iterator it = pairs.begin(); it != final_pos; it++)
 	{
@@ -162,13 +165,17 @@ void print_vectors(const std::vector<std::pair<int, int> >& pairs, const std::ve
     std::cout << std::endl;
 }
 
-void insert_list_in_main(std::vector<std::pair<int , size_t> > &insert_list, std::vector<int> &main, int vec_size)
+void insert_list_in_main(std::vector<std::pair<int , size_t> > &insert_list, std::vector<int> &main, size_t a_size)
 {
 	std::vector<int>::iterator pos;
-	(void)vec_size;
+
 	for (std::vector<std::pair<int, size_t> >::iterator it = insert_list.begin(); it != insert_list.end(); it++)
 	{
-		pos = binary_search_insert_position(main.begin(), main.end(), it->first);
+		// std::cout << "main.size = " <<main.size() << std::endl;
+		if (it->second >= a_size)
+			pos = binary_search_insert_position(main.begin(), main.end(), it->first);
+		else
+			pos = binary_search_insert_position(main.begin(), main.end() - (a_size - it->second - 1), it->first);
 		main.insert(pos, it->first);
 	}
 }
@@ -190,7 +197,7 @@ void PmergeME::merge_insert_vec()
 	print_vectors(pairs, main, pending, _vec.size());
 	get_Jacobstal_insertion_list(pending, insert_list , ( _vec.size() / 2) + (_vec.size() % 2));
 	print_insert_list(insert_list);
-	insert_list_in_main(insert_list, main, _vec.size());
+	insert_list_in_main(insert_list, main, _vec.size()/2);
 	print_main(main);
 }
 
