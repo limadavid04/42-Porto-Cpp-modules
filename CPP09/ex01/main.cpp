@@ -5,6 +5,9 @@ int main (int argc, char **argv)
 {
 	RPN rpn;
 	int result;
+	//add canonical form;
+	//change error messages;
+	//can we get negative ints? or just nbr between 0-10?
 	if (argc != 2)
 	{
 		std::cerr << "Error: Invalid number or args" << std::endl;

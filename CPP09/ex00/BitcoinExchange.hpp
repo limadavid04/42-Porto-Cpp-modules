@@ -9,14 +9,15 @@ class BitcoinExchange {
 	private:
 		std::map<time_t,float> _exchange_rates_db;
 		std::string _data_base_path;
+		BitcoinExchange(const BitcoinExchange & cpy);
+		const BitcoinExchange & operator=(const BitcoinExchange & src);
 	public:
 		BitcoinExchange();
-		static time_t parse_date(std::string &date_str);
-		time_t get_closest_date(time_t date);
-		void display_conversion(time_t date, float value);
-		float parse_exchange_rate(std::string &rate_str);
+		~BitcoinExchange();
 		void parse_db();
 		void convert(std::string &file);
+		void display_conversion(time_t date, float value);
+		time_t get_closest_date(time_t date);
 
 		class InvalidInputException : public std::exception {
 			public:

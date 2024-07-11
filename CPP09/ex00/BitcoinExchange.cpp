@@ -9,6 +9,16 @@
 #include <iomanip>
 #include <limits>
 #include <algorithm>
+
+const BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &src) {
+	(void)src;
+	return *this;
+};
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &cpy) {
+	(void)cpy;
+};
+BitcoinExchange::~BitcoinExchange() {};
+
 BitcoinExchange::BitcoinExchange() : _exchange_rates_db(), _data_base_path("data.csv") {
 	try {
 		parse_db();
@@ -17,12 +27,12 @@ BitcoinExchange::BitcoinExchange() : _exchange_rates_db(), _data_base_path("data
 		std::cerr << e.what() << std::endl;
 	}
 }
-bool isLeapYear(int year)
+static bool isLeapYear(int year)
 {
 	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-bool isValidDate(int year, int month, int day)
+static bool isValidDate(int year, int month, int day)
 {
 	if (year < 0 || month < 1 || month > 12 || day < 1) return false;
 	const int daysInMonth[] = {31, 28 + isLeapYear(year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -34,11 +44,12 @@ static inline void rtrim(std::string &s) {
 }
 
 std::string timeToString(time_t time) {
-    std::tm* tm = std::localtime(&time); // Convert time_t to tm struct
-    char buffer[11]; // Buffer to hold the formatted string. Format is YYYY-MM-DD\0, so 11 characters are needed.
-    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", tm); // Format the tm struct into the buffer
-    return std::string(buffer); // Convert buffer to std::string and return
+	std::tm* tm = std::localtime(&time); // Convert time_t to tm struct
+	char buffer[11]; // Buffer to hold the formatted string. Format is YYYY-MM-DD\0, so 11 characters are needed.
+	std::strftime(buffer, sizeof(buffer), "%Y-%m-%d", tm); // Format the tm struct into the buffer
+	return std::string(buffer); // Convert buffer to std::string and return
 }
+
 void BitcoinExchange::print_db() {
 	if (_exchange_rates_db.empty()) {
 		std::cout << "The exchange rates database is empty, please try passing a Database first." << std::endl;
@@ -65,7 +76,7 @@ float parse_value(std::string &value_str) {
 	return value;
 }
 
-time_t BitcoinExchange::parse_date(std::string &date_str)
+time_t parse_date(std::string &date_str)
 {
 	rtrim(date_str);
 	std::istringstream date_ss(date_str);
@@ -86,7 +97,7 @@ time_t BitcoinExchange::parse_date(std::string &date_str)
 	return myTimeT;
 }
 
-float BitcoinExchange::parse_exchange_rate(std::string &rate_str)
+float parse_exchange_rate(std::string &rate_str)
 {
 	float rate;
 	rtrim(rate_str);
@@ -203,15 +214,3 @@ const char* BitcoinExchange::InvalidInputException::what() const throw()
 	return ("Error: bad input");
 }
 
-// BitcoinExchange::InvalidDateException::InvalidDateException(const std::string& msg) : _message("Invalid Date: " + msg) {}
-
-// const char* BitcoinExchange::InvalidDateException::what() const throw()
-// {
-// 	return _message.c_str();
-// }
-
-// BitcoinExchange::LineSyntaxErrorException::LineSyntaxErrorException(const std::string& msg) : _message("Invalid Line syntax: " + msg) {}
-
-// const char* BitcoinExchange::LineSyntaxErrorException::what() const throw() {
-// 	return _message.c_str();
-// }

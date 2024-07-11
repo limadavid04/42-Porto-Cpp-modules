@@ -4,6 +4,7 @@
 int main (int argc, char **argv)
 {
 
+	//ADD CANONICAL FORM;
 	BitcoinExchange ex;
 	if (argc != 2)
 	{

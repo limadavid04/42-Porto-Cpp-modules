@@ -4,8 +4,14 @@
 #include <algorithm>
 #include <cstdio>
 RPN::RPN() : _stack() {};
-
-
+RPN::RPN(const RPN &cpy) {
+	(void)cpy;
+};
+RPN & RPN::operator=(const RPN & src) {
+	(void)src;
+	return *this;
+};
+RPN::~RPN() {};
 static inline void rtrim(std::string &s) {
 	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
 }
