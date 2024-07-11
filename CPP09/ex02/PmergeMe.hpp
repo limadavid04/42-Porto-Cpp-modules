@@ -3,14 +3,21 @@
 
 #include <string>
 #include <vector>
-#include <list>
-class PmergeME {
+#include <deque>
+class PmergeMe {
 	private:
 		std::vector<int> _vec;
-		std::list<int> _lst;
+		std::deque<int> _deq;
+		double _vec_time;
+		double _deq_time;
+		std::vector<int> fordJohnson_sort_vec();
+		std::deque<int> fordJohnson_sort_deq();
+		PmergeMe(const PmergeMe & cpy);
+		const PmergeMe & operator=(const PmergeMe & src);
 	public:
-		PmergeME();
+		PmergeMe();
+		~PmergeMe();
 		void parse_input(int argc, char** argv);
-		void merge_insert_vec();
+		void fordJohnson_sort();
 };
 #endif

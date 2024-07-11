@@ -7,10 +7,10 @@
 
 int main(int argc, char **argv)
 {
-	PmergeME p;
+	PmergeMe p;
 	try {
 		p.parse_input(argc, argv);
-		p.merge_insert_vec();
+		p.fordJohnson_sort();
 	} catch (std::exception & e) {
 		std::cerr << e.what() << std::endl;
 	}
